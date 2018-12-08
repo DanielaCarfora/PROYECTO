@@ -15,6 +15,20 @@ typedef STRUCT_HAB *Habilidad;
 
 
 
+///--------------------Funcion para evaluar si se puede aplicar una habilidad
+// La funcion retorna cero si el personaje no tiene los puntos de accion o la energia necesaria para usar la habilidad
+//retorna uno si se puede usar la habilidad
+int Evalincendiar(Personaje p, Habilidad h)
+{
+    if(p>ptAccion < h->costoAccion)return 0;
+    if(p>ptEnergia < h->costoAccion)return 0;
+
+    return 1;
+
+}
+
+
+
 void incendiar (Terreno *t)
 {
     t->efecto = INCENDIADO; ///Falta definir el manejo de cada casilla del terreno para guardar el efecto
@@ -51,7 +65,7 @@ Habilidad create_congelar(){
     Habilidad h=malloc(sizeof(Habilidad));
     h->nombre = "Congelar";
     h->costoEnergia = 4;
-    h->costoAccion = ;4
+    h->costoAccion = 4;
     h->rango= 3;
     h->efecto= &congelar;
 
