@@ -166,6 +166,13 @@ void mostrar_hab(ListaHab *L){
     }
 }
 
+void insertar_ite(ListaIte*L, Item ite){ // Iserta Item en el terreno
+	NODO_LITE *q = *L; // q es un apuntador a NODO_LITE, apunta al inicio de la Lista
+	q->Items = ite; 
+    q->sig = *L;
+    *L = q;
+	
+}
 ////########################## Fin de Operaciones de listas ###############################
 
 //-----------------------------------------------------------------------------------------
@@ -201,16 +208,29 @@ void push(PilaInv *p, Item item){
 
 Item pop(PilaInv *p){
 
-    NODO_PINV *q = *p; //Variable auxiliar para manipular el nodo. Apunta al primero.
+    if (p==NULL) return 0;
+	NODO_PINV *q = *p; //Variable auxiliar para manipular el nodo. Apunta al primero.
     Item item; //variable auxiliar para retornar el item
-
 
     *p = (*p)->sig;
     item = q->items;
     free(q);
 
-    return item; // falta agregarlo al terreno
+	Terreno 
+
+    return item; // falta agregarlo al terreno actual
     
+}
+
+void busquedaItem(PilaInv*p, ListaIte*a, item ite){ // Recibe el Item a buscar, la pila de inventario y la lista del terreno.
+	while(p!=NULL && ite != p->items){
+		Item b=pop(&p);
+		insertar_ite(&a,b)
+	}	
+		
+}
+	
+	
 }
 
 ////########################## Fin de Operaciones de pilas ################################
