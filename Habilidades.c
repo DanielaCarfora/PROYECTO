@@ -201,6 +201,28 @@ Habilidad create_Restaurar(){
     return h;
 }
 
+
+///******************************Inicializa un personaje
+
+Personaje NewMago (int jug, int orden){
+    //orden tiene el orden el que juega el personaje
+    Personaje p=malloc(sizeof(Personaje));
+    p->nombre = "Mago";
+    p->ptSalud=100;
+    p->ptEnergia=50;
+    p->inventario=NULL;
+    p->habilidades=createListaH();
+    p->danio=10;
+    p->rango=6;
+    p->evasion=50;
+    p->jugador=jug;
+    p->ptAccion=0;
+    p->velocidad=orden;
+
+    return p;
+}
+
+
 ///****************************************************************************************
 ///****************************************************************************************
 ///****************************************************************************************
