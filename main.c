@@ -1,10 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include _GAMERPG_H_
+
+#include "GAMERPG.h"
 
 int main(){
-    Habilidad incendiar = create
+    Habilidad incendiar = create_incendiar();
+    Habilidad congelar = create_congelar();
+    Habilidad electrocutar = create_Electrocutar();
+    Habilidad restaurar = create_Restaurar();
     int a, b,c,d;
     printf("Bienvenidos al Juego de Roles\n"
           "Eliga su opcion\n"
@@ -22,8 +23,8 @@ int main(){
         
         printf("Se deben seleccionar los personajes\n");
         printf("Jugador 1 - Primer Personaje\n");
-        Personaje1 = seleccionPersonajes(1);
-        Personaje2 
+        Cola personajes = newCola();
+        selectPersonaje(personajes);
         while (1){
             printf("Escoge una opcion: \n"
                    "1)Mostrar tablero\n"
@@ -52,12 +53,16 @@ int main(){
                 // Mariana terminar
                 break;
               case 5 :
-                //  
+                //  Usar habilidad
                 break;
               case 6 :
-                // Terminar
+                // usar item
                 break;
               case 7 :
+                Personaje pp = first(personajes);
+                dequeue(personajes);
+                queue(pp,personajes);
+                // AGREGAR FUNCION DE EVALUAR
                 break;
               case 8 : printf("\n1)Recoger item"
                                 "\n2)Soltar item"
