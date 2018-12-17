@@ -1,0 +1,58 @@
+#include<stdio.h>
+
+void consultarCasilla(int i, int j, Terreno Tablero[10][20]){
+        switch (Tablero[i][j]->efecto){
+            case 1 :printf("NINGUNO");
+                break;
+            case 2 :printf("ELECTRIFICADO");
+                break;
+            case 3 :printf("INCENDIADO");
+                break;
+            case 4 :printf("CONGELADO");
+                break;
+               }
+                if(HayPersonaje(Tablero[i][j])) printf(%c, (Tablero[i][j]->personaje)->nombre);
+                if(Tablero[i][j]->items!=NULL)printf(%c, (top(Tablero[i][j]->items))->nombre);
+}
+
+
+void EscribeOrigen(int *oi,int *oj){
+    printf("Origen\n"
+           "Escoge la pieza:\n");
+
+    do{
+        printf("Fila: ");
+        scanf("%d",oi);
+    }while(*oi<0 || *oi>7);
+
+    do{
+        printf("\n Columna: ");   // elige columna
+        scanf("%d",oj);
+    } while(*oj<0 || *oj>7);
+}
+
+void EscribeDestino(int *di,int *dj){
+    printf("\nDestino\n");
+
+    do{
+        printf("\nEscoge el destino:\nFila: ");   // elige fila
+        scanf("%d",di);
+    }while(*di<0 || *di>7);
+
+    do{
+        printf("\nColumna: ");   // elige Columna
+        scanf("%d",dj);
+    }while(*dj<0 || *dj>7);
+}
+
+int ConfirmaOrigen(int i,int j,Terreno Tablero[10][20]) {///por lo que dice abajo se tiene que cambiar esta funcion y que reciba o el jugador o el personaje->jugador
+     if(Tablero[i][j]->personaje!=NULL)return 1; ///falta poner una condicion de si ese jugador pertenece al jugado
+     else{ printf("\nNo hay personaje en esa posicion o es otro jugador\n"); return 0;
+     }
+}
+
+int ConfirmaDestino(int *oi,int *oj,int *di, int *dj, Terreno Tablero[10][20]) {
+     if(oj+1==dj || oj-1==dj){
+        if(oi+1==di || oi-1==di)return 1;
+     }else return 0;
+}
