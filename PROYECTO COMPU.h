@@ -350,6 +350,23 @@ Personaje NewDuende (int jug, int turno){
 
 //############################ Operaciones sobre TAD
 
+Personaje selectPersonaje(int ttt){
+int n1;
+printf("1. Mago\n2.Soldado\n3.Arquero\n4.Duende\n");
+printf("Selecione el numero de su personaje:\n");
+scanf("%d",n1);
+switch(n1){
+        case 1: Personaje p1 = NewMago(1,ttt);
+        case 2: Personaje p1 = NewSoldado(1,ttt);
+        case 3: Personaje p1 = NewArquero(1,ttt);
+        case 4: Personaje p1 = NewDuende(1,ttt);
+}
+
+return p1;
+
+}
+
+
 void seleccionPersonajes(){
     int n1,s1;
     printf("1. Mago\n2.Soldado\n3.Arquero\n4.Duende\n");
@@ -455,7 +472,6 @@ void afectaPersonaje(){
     }
     /*if (t->efecto == NINGUNO){
         t->personaje->ptSalud=(saludMax*0.30)+(t->personaje->ptSalud); ///Cura el 30% de los puntos de salud del personaje
-
     }*/
 }
 
@@ -659,14 +675,8 @@ int FueraDRango(Personaje *p, int j, int i ){
            /* if(((i<=posi+rang )&&(i>posi))|| (i>=posi-rang &&(i<posi))){
                 return 0;
                     if(){
-
                     }else{
-
-
-
                     }
-
-
             */
             return 0;
     }else{
@@ -894,3 +904,4 @@ void elegirHabilidad(){
 //-----------------------------------------------------------------------------------------
 
 #endif
+
