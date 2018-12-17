@@ -44,7 +44,7 @@ int main(){
                     void consultar casilla(); // HACER FUNCION CONSULTAR CASILLA
                     break;
                 case 3 :
-                   //  terminar
+                     atacar();
                    break;
                 case 4 :
                    // Padilla terminar
@@ -66,12 +66,12 @@ int main(){
                                  );
                          scanf("%d",&c);
                          switch(c){
-                            case 1: /*lista en orden todos los items del piso y los enumera en un menú,
+                            case 1: /*lista en orden todos los items del piso y los enumera en un menÃº,
                             el jugador procede entonces a especificar uno de ellos.
                             El item sera removido del piso y agregado al tope del inventario. */
                                 break;
                             case 2: /*remueve el tope del inventario y lo agrega a los items que se encuentran
-                                en la casilla donde está parado el personaje.*/
+                                en la casilla donde estÃ¡ parado el personaje.*/
                                 break;
                             case 3: /*revisa el item que se encuentra al tope del inventario, si el item es un
                                 ARMA o ARMADURA, lo equipa en el campo correspondiente
