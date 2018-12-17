@@ -1,6 +1,10 @@
 #ifndef _GAMERPG_H_
 #define _GAMERPG_H_
 
+///Variables Globales
+
+Terreno Tablero [10][20];
+int posi, posj;                 ///Variables para maneja el tablero en los ataques
 
 typedef struct s_personaje STRUCT_PER;
 typedef STRUCT_PER *Personaje;
@@ -387,7 +391,7 @@ void seleccionPersonajes(){
     return 0;
 }
 
-Tablero MostrarTablero(){
+void MostrarTablero(){
     Terreno Tablero[10][20];
     for(int i=0; i<10; i++){
         for(int j=0; j<20; j++){
@@ -398,7 +402,6 @@ Tablero MostrarTablero(){
             printf("%c",Tablero[i][j]);
         } printf("\n");
     }
-    return Tablero;
 }
 
 void busquedaItem(PilaInv*p, ListaIte*a, item ite){ // Recibe el Item a buscar, la pila de inventario y la lista del terreno.
@@ -536,10 +539,6 @@ Habilidad create_Restaurar(){
 ///****************************************************************************************
 ///*****************************Para Atacar************************************************
 
-///Variables Globales
-
-Terreno Tablero [10][20];
-int posi, posj;                 ///Variables para maneja el tablero en los ataques
 
 ///Realiza el ataque entre dos personajes
 //El primer parametro que recibe es el personaje que esta atacando y el segundo es el que esta siendo atacado
@@ -643,7 +642,7 @@ int ConvertirLetra(char a){
     if(a=='T'){
         return 19;
     }
-    
+
 
 }
 
@@ -728,7 +727,7 @@ void atacar (Personaje *p){
     scanf("%c", &a);
     printf("Ingrese su Fila\n");
     scanf("%d", &i);
-    
+
     j= ConvertirLetra(a);
 
     if (Tablero[i][j]->personaje==NULL){
@@ -747,7 +746,7 @@ void atacar (Personaje *p){
                 printf("El personaje con el que se quiere atacar NO tiene los suficientes puntos de accion \n");
 
             }
-            
+
 
         }
 
@@ -857,7 +856,7 @@ void BuscarTurnos (Turnos *T){
         for(int j=0; j<20; j++){
             if(Tablero[i][j]->personaje!=NULL){
                 insertOrdturnos(i, j,(Tablero[i][j]->personaje)->velocity);
-                
+
 
             }
         }

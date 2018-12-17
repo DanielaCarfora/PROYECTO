@@ -5,7 +5,6 @@
 
 int main(){
     int a, b,c,d;
-    Terreno Tablero[10][20];
     printf("Bienvenidos al Juego de Roles\n"
           "Eliga su opcion\n"
           "1. Nueva Partida\n"
@@ -21,7 +20,7 @@ int main(){
     if (a==1){
         seleccionPersonajes();
         int orden=1;
-        while (orden<=4){
+        while (1){
             printf("Escoge una opcion: \n"
                    "1)Mostrar tablero\n"
                    "2)Consultar casilla\n"
@@ -37,13 +36,13 @@ int main(){
 
             switch (b){
                 case 1 :
-                    Tablero x = MostrarTablero();
+                    MostrarTablero();
                     break;
                 case 2 :
-                    void consultar casilla(); // HACER FUNCION CONSULTAR CASILLA
+                    consultarCasilla();
                     break;
                 case 3 :
-                   //  terminar
+                   atacar()
                    break;
                 case 4 :
                    // Padilla terminar
