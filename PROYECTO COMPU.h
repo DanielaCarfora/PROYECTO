@@ -93,6 +93,20 @@ typedef struct s_terreno
 
 typedef STRUCT_TER *Terreno;
 
+
+
+typedef struct turno {
+    int pi;     //Posicion en filas del personaje
+    int pj;     //Posicion en columnas del personaje
+    int velocity;   //Velocidad del personaje;
+    turnos *tnext;
+
+
+}Turno;
+
+typedef Turno *Turnos;
+
+
 //############################ Fin estructuras de los TAD's ###############################
 
 //-----------------------------------------------------------------------------------------
@@ -445,24 +459,24 @@ void afectaPersonaje(){
 void incendiar (Terreno *t)
 {
     t->efecto = INCENDIADO;
-    if (HayPersonaje(t)){
-        afectaPeronaje(t);
+    if (HayPersonaje(*t)){
+        afectaPeronaje(*t);
     }
 }
 
 void congelar (Terreno *t)
 {
     t->efecto = CONGELADO;
-    if (HayPersonaje(t)){
-        afectaPeronaje(t);
+    if (HayPersonaje(*t)){
+        afectaPeronaje(*t);
     }
 }
 
 void electrocutar(Terreno *t)
 {
     t->efecto = ELECTRIFICADO;
-    if (HayPersonaje(t)){
-        afectaPeronaje(t);
+    if (HayPersonaje(*t)){
+        afectaPeronaje(*t);
     }
 }
 
@@ -808,6 +822,52 @@ int ConfirmaDestino(int *oi,int *oj,int *di, int *dj, Terreno Tablero[10][20]) {
         if(oi+1==di || oi-1==di)return 1;
      }else return 0;
 }
+
+
+
+
+//Inserta los turnos de mayor a menor
+// Turnos *T DEBE ser variable global??????????????
+
+void insertOrdturnos (int ppi, int ppj, int vv, , Turnos *T){
+    turnos *p =malloc(sizeof(turno)), *q;
+    p->velocity=vv;
+    p->pi=ppi;
+    p->pj=ppj;
+    if(*T==NULL || x>(*T)->velocity){
+        p->tnext=*T;
+        *T=p;
+    }else{
+        q=*T;
+        while(q->tnext!=NULL && x<(q->tnext)->velocity) q=q->tnext;
+        p->tnext=q->tnext; q->tnext=p;
+
+
+    }
+
+}
+
+
+//Busca en el tablero los personajes para asignarles un turno
+
+void BuscarTurnos (Turnos *T){
+    *T=NULL;
+
+    for(int i=0; i<10; i++){
+        for(int j=0; j<20; j++){
+            if(Tablero[i][j]->personaje!=NULL){
+                insertOrdturnos(i, j,(Tablero[i][j]->personaje)->velocity);
+                
+
+            }
+        }
+    }
+
+
+
+
+}
+
 
 //############################ Fin operaciones  del TAD ###################################
 
