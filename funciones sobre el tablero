@@ -56,3 +56,12 @@ int ConfirmaDestino(int *oi,int *oj,int *di, int *dj, Terreno Tablero[10][20]) {
         if(oi+1==di || oi-1==di)return 1;
      }else return 0;
 }
+///esta funcion primero confirma qeu se pueda mover y luego verifica que ptaccion sea mayor a 1 y luego 
+int ConfirmaDestino(int *oi,int *oj,int *di, int *dj, Terreno Tablero[10][20]) {
+     if(oj+1==dj || oj-1==dj){if(oi+1==di || oi-1==di){
+        if((Tablero[i][j]->personaje)->ptAccion > 1){
+           (Tablero[i][j]->personaje)->ptAccion= (Tablero[i][j]->personaje)->ptAccion - 1;
+           return 1;
+        } else return 0;
+ }
+ 
