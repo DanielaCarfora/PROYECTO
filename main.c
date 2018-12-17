@@ -4,6 +4,7 @@
 #include _GAMERPG_H_
 
 int main(){
+    Habilidad incendiar = create
     int a, b,c,d;
     printf("Bienvenidos al Juego de Roles\n"
           "Eliga su opcion\n"
@@ -19,7 +20,6 @@ int main(){
     }
     if (a==1){
         seleccionPersonajes();
-        int orden=1;
         while (1){
             printf("Escoge una opcion: \n"
                    "1)Mostrar tablero\n"
@@ -35,28 +35,27 @@ int main(){
             scanf("%d",&b);
 
             switch (b){
-                case 1 :
-                    MostrarTablero();
-                    break;
-                case 2 :
-                    consultarCasilla();
-                    break;
-                case 3 :
-                   atacar()
-                   break;
-                case 4 :
-                   // Padilla terminar
-                   break;
-                case 5 :
-                    //  Terminar
-                    break;
-                case 6 :
-                    // Terminar
-                    break;
-                case 7 :
-                    orden ++;
-                    break;
-                case 8 : printf("\n1)Recoger item"
+              case 1 :
+                MostrarTablero();
+                break;
+              case 2 :
+                consultarCasilla();
+                break;
+              case 3 :
+                atacar()
+                break;
+              case 4 :
+                // Mariana terminar
+                break;
+              case 5 :
+                //  
+                break;
+              case 6 :
+                // Terminar
+                break;
+              case 7 :
+                break;
+              case 8 : printf("\n1)Recoger item"
                                 "\n2)Soltar item"
                                 "\n3)Equipar item"
                                 "\n4)Consultar tope"
@@ -99,10 +98,3 @@ int main(){
    }
 }
 
-
-    if (a==1){
-        seleccionPersonajes();
-        printf("Bienvenido\n");
-        int orden=1;
-                    consultarCasilla();
-                     atacar();

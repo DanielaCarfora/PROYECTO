@@ -867,6 +867,26 @@ void BuscarTurnos (Turnos *T){
 
 }
 
+void elegirHabilidad(){
+    int h; // alamacena el numero de la habiliad escogida por el usuario
+    printf("Ingrese el numero de la habilidad deseada:\n1.Incendiar\n2.Congelar\n3.Electrocutar\n4.Restaurar");
+    scanf("%d",h);
+    switch(h){
+        case 1: 
+            Evalhabilidad();
+            break;
+        case 2: 
+            Evalhabilidad();
+            break;
+        case 3:
+            Evalhabilidad();
+            break;
+        case 4:
+            Evalhabilidad();
+            break;
+
+    }
+}
 
 //############################ Fin operaciones  del TAD ###################################
 
