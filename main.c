@@ -19,7 +19,11 @@ int main(){
         scanf("%d",&a);
     }
     if (a==1){
-        seleccionPersonajes();
+        
+        printf("Se deben seleccionar los personajes\n");
+        printf("Jugador 1 - Primer Personaje\n");
+        Personaje1 = seleccionPersonajes(1);
+        Personaje2 
         while (1){
             printf("Escoge una opcion: \n"
                    "1)Mostrar tablero\n"
@@ -97,4 +101,3 @@ int main(){
                 default : printf( "\n ERROR" );
    }
 }
-
