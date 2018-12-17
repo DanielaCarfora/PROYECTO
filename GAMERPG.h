@@ -398,6 +398,27 @@ Personaje NewDuende (int jug, int turno){
 
 //############################ Operaciones sobre TAD
 
+<<<<<<< HEAD:GAMERPG.h
+=======
+/*
+Personaje selectPersonaje(int ttt){
+int n1;
+printf("1. Mago\n2.Soldado\n3.Arquero\n4.Duende\n");
+printf("Selecione el numero de su personaje:\n");
+scanf("%d",n1);
+switch(n1){
+        case 1: Personaje p1 = NewMago(1,ttt);
+        case 2: Personaje p1 = NewSoldado(1,ttt);
+        case 3: Personaje p1 = NewArquero(1,ttt);
+        case 4: Personaje p1 = NewDuende(1,ttt);
+}
+
+return p1;
+
+}
+*/
+
+>>>>>>> master:PROYECTO COMPU.h
 void selectPersonajes(personajes){
     int n1,s1;
     Personaje *p1, *p2, *p3, *p4;
@@ -413,7 +434,11 @@ void selectPersonajes(personajes){
         case 3: p1 = NewArquero(1,1);
         case 4: p1 = NewDuende(1,1);
 }
+<<<<<<< HEAD:GAMERPG.h
     
+=======
+	
+>>>>>>> master:PROYECTO COMPU.h
 
     switch(s1){
         case 1: p2 = NewMago(1,3);
@@ -421,7 +446,11 @@ void selectPersonajes(personajes){
         case 3: p2 = NewArquero(1,3);
         case 4: p2 = NewDuende(1,3);
 }
+<<<<<<< HEAD:GAMERPG.h
     
+=======
+	
+>>>>>>> master:PROYECTO COMPU.h
 
     printf("Personajes del jugador 1 creados exitosamente\n");
     printf("1. Mago\n2.Soldado\n3.Arquero\n4.Duende\n");
