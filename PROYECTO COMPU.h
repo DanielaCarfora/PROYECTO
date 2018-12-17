@@ -350,6 +350,7 @@ Personaje NewDuende (int jug, int turno){
 
 //############################ Operaciones sobre TAD
 
+/*
 Personaje selectPersonaje(int ttt){
 int n1;
 printf("1. Mago\n2.Soldado\n3.Arquero\n4.Duende\n");
@@ -365,10 +366,11 @@ switch(n1){
 return p1;
 
 }
+*/
 
-
-void seleccionPersonajes(){
+void selectPersonajes(personajes){
     int n1,s1;
+    Personaje *p1, *p2, *p3, *p4;
     printf("1. Mago\n2.Soldado\n3.Arquero\n4.Duende\n");
     printf("Jugador 1\n");
     printf("Selecione el numero de su primer personaje:\n");
@@ -376,17 +378,21 @@ void seleccionPersonajes(){
     printf("Selecione el numero de su segundo personaje:\n");
     scanf("%d",s1);
     switch(n1){
-        case 1: Personaje Mago = NewMago(1,1);
-        case 2: Personaje Soldado = NewSoldado(1,1);
-        case 3: Personaje Arquero = NewArquero(1,1);
-        case 4: Personaje Duende = NewDuende(1,1);
+        case 1: p1 = NewMago(1,1);
+        case 2: p1 = NewSoldado(1,1);
+        case 3: p1 = NewArquero(1,1);
+        case 4: p1 = NewDuende(1,1);
 }
+	
+
     switch(s1){
-        case 1: Personaje Mago = NewMago(1,3);
-        case 2: Personaje Soldado = NewSoldado(1,3);
-        case 3: Personaje Arquero = NewArquero(1,3);
-        case 4: Personaje Duende = NewDuende(1,3);
+        case 1: p2 = NewMago(1,3);
+        case 2: p2 = NewSoldado(1,3);
+        case 3: p2 = NewArquero(1,3);
+        case 4: p2 = NewDuende(1,3);
 }
+	
+
     printf("Personajes del jugador 1 creados exitosamente\n");
     printf("1. Mago\n2.Soldado\n3.Arquero\n4.Duende\n");
     printf("Su turno jugador 2...\n Selecion el numero se primer personaje:\n");
@@ -394,17 +400,27 @@ void seleccionPersonajes(){
     printf("Selecione el numero de su segundo personaje:\n");
     scanf("%d",s2);
     switch(n2){
-        case 1: Personaje Mago = NewMago(2,2);
-        case 2: Personaje Soldado = NewSoldado(2,2);
-        case 3: Personaje Arquero = NewArquero(2,2);
-        case 4: Personaje Duende = NewDuende(2,2);
+        case 1: p3 = NewMago(2,2);
+        case 2: p3 = NewSoldado(2,2);
+        case 3: p3 = NewArquero(2,2);
+        case 4: p3 = NewDuende(2,2);
 }
+
+
     switch(s2){
-        case 1: Personaje Mago = NewMago(2,4);
-        case 2: Personaje Soldado = NewSoldado(2,4);
-        case 3: Personaje Arquero = NewArquero(2,4);
-        case 4: Personaje Duende = NewDuende(2,4);
+        case 1: p4 = NewMago(2,4);
+        case 2: p4 = NewSoldado(2,4);
+        case 3: p4 = NewArquero(2,4);
+        case 4: p4 = NewDuende(2,4);
 }
+
+queue(p1, personajes);
+queue(p3, personajes);
+queue(p2, personajes);
+queue(p4, personajes);
+
+
+
     return 0;
 }
 
