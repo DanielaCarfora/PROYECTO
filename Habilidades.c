@@ -105,7 +105,7 @@ int Evalhabilidad(Personaje p, Habilidad h)
 
 
 ///Para saber si hay un personaje en un terreno del tablero
-//Devuelve 1 si hay un personaje Devuelve 0 sino 
+//Devuelve 1 si hay un personaje Devuelve 0 sino
 int HayPersonaje(Terreno *t){
     return (t->personaje!=NULL)
 }
@@ -128,7 +128,7 @@ void afectaPersonaje(){
         }else{
             t->personaje->ptEnergia=(t->personaje->ptEnergia)*0.50; //elimina el 50% de la cantidad de puntos de energía TOTAL del personaje
         }
-        
+
 
 
     }
@@ -142,7 +142,7 @@ void afectaPersonaje(){
 
 void incendiar (Terreno *t)
 {
-    t->efecto = INCENDIADO; 
+    t->efecto = INCENDIADO;
     if (HayPersonaje(t)){
         afectaPeronaje(t);
     }
@@ -150,7 +150,7 @@ void incendiar (Terreno *t)
 
 void congelar (Terreno *t)
 {
-    t->efecto = CONGELADO;   
+    t->efecto = CONGELADO;
     if (HayPersonaje(*t)){
         afectaPeronaje(*t);
     }
@@ -166,7 +166,7 @@ void electrocutar(Terreno *t)
 
 void restaurar(Terreno *t)
 {
-    t->efecto = RESTAURAR;	
+    t->efecto = RESTAURAR;
 }
 
 
@@ -231,7 +231,7 @@ int posi, posj;                 ///Variables para maneja el tablero en los ataqu
 //El primer parametro qu recibe es el personaja que esta atacando y el segundo es el que esta siendo atacado
 
 void ataca (Personaje *p1, Personaje *p2){
-    
+
     int dan = p1->danio;
 
     int evac = p2->evasion; ///Evacion del personaje atacado
@@ -359,7 +359,7 @@ void atacar (Personaje *p){
     scanf("%c", &a);
     printf("Ingrese su Fila\n");
     scanf("%d", &i);
-    
+
     j= ConvertirLetra(a);
 
     if (Tablero[i][j]->personaje==NULL){
@@ -376,16 +376,6 @@ void atacar (Personaje *p){
         }
 
     }
-
-
-
-
-
-
-
-
-
-
 
 }
 

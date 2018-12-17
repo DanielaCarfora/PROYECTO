@@ -22,7 +22,6 @@ int main(){
         seleccionPersonajes();
         int orden=1;
         while (orden<=4){
-            printf("Bienvenido\n"); // no se como poner el nombre del personaje segun el orden
             printf("Escoge una opcion: \n"
                    "1)Mostrar tablero\n"
                    "2)Consultar casilla\n"
@@ -44,7 +43,7 @@ int main(){
                     void consultar casilla(); // HACER FUNCION CONSULTAR CASILLA
                     break;
                 case 3 :
-                     atacar();
+                   //  terminar
                    break;
                 case 4 :
                    // Padilla terminar
@@ -101,3 +100,10 @@ int main(){
    }
 }
 
+
+    if (a==1){
+        seleccionPersonajes();
+        printf("Bienvenido\n");
+        int orden=1;
+                    consultarCasilla();
+                     atacar();

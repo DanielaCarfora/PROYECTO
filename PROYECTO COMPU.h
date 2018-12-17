@@ -157,6 +157,28 @@ void mostrar_hab(ListaHab *L){
     }
 }
 
+void mostrar_ite(ListaIte *L){
+
+    NODO_LHAB *q = *L; // q es un apuntador a NODO_LHAB, apunta al inicio de la Lista
+
+    if(q==NULL){
+        printf("\nNo posee items\n");
+    }else{
+
+        printf("Items:\n\n");
+
+        while (q!=NULL){
+            printf("%s\n",q->items->nombre);
+            printf("Costo: %d\n",q->items->costo);
+            printf("Rango: %d\n",q->items->rango);
+            printf("Efecto: %s\n", q->items->(*efecto)(Terreno*));
+            printf("\n");
+
+            q= q->sig;
+        }
+    }
+}
+
 void insertar_ite(ListaIte*L, Item ite){ // Iserta Item en el terreno
 	NODO_LITE *q = *L; // q es un apuntador a NODO_LITE, apunta al inicio de la Lista
 	q->Items = ite;
@@ -365,13 +387,6 @@ Tablero MostrarTablero(){
     return Tablero;
 }
 
-void consultarCasilla(){
- printf("Ingrese casilla a consultar\n:");
-                    scanf(%d,)
-                    // TERMINAR
-                    //se le debe pedir una coordenada y listar en pantalla todos los detalles de la casilla especificada (Personaje que la está ocupando y sus detalles, items en el suelo y efecto).
-    return 0;
-}
 void busquedaItem(PilaInv*p, ListaIte*a, item ite){ // Recibe el Item a buscar, la pila de inventario y la lista del terreno.
 	while(p!=NULL && ite != p->items){
 		Item b=pop(&p);
@@ -426,8 +441,6 @@ void afectaPersonaje(){
 
     }*/
 }
-
-
 
 void incendiar (Terreno *t)
 {
@@ -514,10 +527,8 @@ Habilidad create_Restaurar(){
 Terreno Tablero [10][20];
 int posi, posj;                 ///Variables para maneja el tablero en los ataques
 
-
-
 ///Realiza el ataque entre dos personajes
-//El primer parametro qu recibe es el personaja que esta atacando y el segundo es el que esta siendo atacado
+//El primer parametro que recibe es el personaje que esta atacando y el segundo es el que esta siendo atacado
 
 void ataca (Personaje *p1, Personaje *p2){
 
@@ -593,8 +604,6 @@ int ConvertirLetra(char a){
 }
 
 
-
-
 void atacar (Personaje *p){
 
     BuscarEnT(p);
@@ -617,6 +626,71 @@ void atacar (Personaje *p){
     }
 }
 
+void consultarCasilla(){
+    Terreno Tablero[10][20];
+    int i,j;
+    printf("Ingrese las coordenadas del terreno a consultar:");
+    scanf("%d,%d",&i,&j);
+    printf("Terreno:\n");
+    switch (Tablero[i][j]->efecto){
+        case 0 :
+            printf("NINGUNO");
+            break;
+        case 1 :
+            printf("ELECTRIFICADO");
+            break;
+        case 2 :
+            printf("INCENDIADO");
+            break;
+        case 3 :
+            printf("CONGELADO");
+            break;
+               }
+        if(HayPersonaje(Tablero[i][j])) printf(%c, (Tablero[i][j]->personaje)->nombre);
+        if(Tablero[i][j]->items!=NULL)mostrar_hab(Tablero[i][j]->items);
+}
+
+
+void EscribeOrigen(int *oi,int *oj){
+    printf("Origen\n"
+           "Escoge la pieza:\n");
+
+    do{
+        printf("Fila: ");
+        scanf("%d",oi);
+    }while(*oi<0 || *oi>7);
+
+    do{
+        printf("\n Columna: ");   // elige columna
+        scanf("%d",oj);
+    } while(*oj<0 || *oj>7);
+}
+
+void EscribeDestino(int *di,int *dj){
+    printf("\nDestino\n");
+
+    do{
+        printf("\nEscoge el destino:\nFila: ");   // elige fila
+        scanf("%d",di);
+    }while(*di<0 || *di>7);
+
+    do{
+        printf("\nColumna: ");   // elige Columna
+        scanf("%d",dj);
+    }while(*dj<0 || *dj>7);
+}
+
+int ConfirmaOrigen(int i,int j,Terreno Tablero[10][20]) {///por lo que dice abajo se tiene que cambiar esta funcion y que reciba o el jugador o el personaje->jugador
+     if(Tablero[i][j]->personaje!=NULL)return 1; ///falta poner una condicion de si ese jugador pertenece al jugado
+     else{ printf("\nNo hay personaje en esa posicion o es otro jugador\n"); return 0;
+     }
+}
+
+int ConfirmaDestino(int *oi,int *oj,int *di, int *dj, Terreno Tablero[10][20]) {
+     if(oj+1==dj || oj-1==dj){
+        if(oi+1==di || oi-1==di)return 1;
+     }else return 0;
+}
 
 //############################ Fin operaciones  del TAD ###################################
 
