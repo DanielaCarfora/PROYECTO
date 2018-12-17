@@ -418,19 +418,19 @@ int HayPersonaje(Terreno *t){
 
 void afectaPersonaje(){
     if (t->efecto == INCENDIADO){
-        t->personaje->ptSalud=(t->personaje->ptSalud)*0.70; ///Incendia la casilla objetivo y causa 30% de daño a los puntos de salud ACTUALES
+        t->personaje->ptSalud=(t->personaje->ptSalud)*0.70; ///Incendia la casilla objetivo y causa 30% de daÃ±o a los puntos de salud ACTUALES
     }
 
     if (t->efecto == CONGELADO){
-        t->personaje->ptAccion=0;               ///Reduce a cero los puntos de acción que tenga el personaje
+        t->personaje->ptAccion=0;               ///Reduce a cero los puntos de acciÃ³n que tenga el personaje
 
     }
     if (t->efecto == ELECTRIFICADO){
         if ((t->personaje->ptEnergia)*0.50<=0){
-            t->personaje->ptEnergia=1;          ///Los puntos de energía no pueden bajar de 0
+            t->personaje->ptEnergia=1;          ///Los puntos de energÃ­a no pueden bajar de 0
 
         }else{
-            t->personaje->ptEnergia=(t->personaje->ptEnergia)*0.50; //elimina el 50% de la cantidad de puntos de energía TOTAL del personaje
+            t->personaje->ptEnergia=(t->personaje->ptEnergia)*0.50; //elimina el 50% de la cantidad de puntos de energÃ­a TOTAL del personaje
         }
 
 
@@ -453,16 +453,16 @@ void incendiar (Terreno *t)
 void congelar (Terreno *t)
 {
     t->efecto = CONGELADO;
-    if (HayPersonaje(*t)){
-        afectaPeronaje(*t);
+    if (HayPersonaje(t)){
+        afectaPeronaje(t);
     }
 }
 
 void electrocutar(Terreno *t)
 {
     t->efecto = ELECTRIFICADO;
-    if (HayPersonaje(*t)){
-        afectaPeronaje(*t);
+    if (HayPersonaje(t)){
+        afectaPeronaje(t);
     }
 }
 
@@ -536,7 +536,7 @@ void ataca (Personaje *p1, Personaje *p2){
 
     int evac = p2->evasion; ///Evacion del personaje atacado
     int arm = p2->armadura; ///armadura del personaje atacado
-
+	p1->ptAccion=p1->ptAccion-2;
 
     int n=rand() %100;
 
@@ -599,9 +599,106 @@ int ConvertirLetra(char a){
     if(a=='J'){
         return 9;
     }
+    if(a=='K'){
+        return 10;
+    }
+    if(a=='L'){
+        return 11;
+    }
+    if(a=='M'){
+        return 12;
+    }
+    if(a=='N'){
+        return 13;
+    }
+    if(a=='O'){
+        return 14;
+    }
+    if(a=='P'){
+        return 15;
+    }
+    if(a=='Q'){
+        return 16;
+    }
+    if(a=='R'){
+        return 17;
+    }
+    if(a=='S'){
+        return 18;
+    }
+    if(a=='T'){
+        return 19;
+    }
+    
+
+}
+
+
+
+int FueraDRango(Personaje *p, int j, int i ){
+    BuscarEnT(p);
+    int rang=p->rango;
+    int k, l;
+
+    for(k=posi-rang; k<=posi+rang; k++){
+
+    if(((j<=posj+rang )&&(j>posj))|| (j>=posj-rang &&(j<posj))){
+           /* if(((i<=posi+rang )&&(i>posi))|| (i>=posi-rang &&(i<posi))){
+                return 0;
+                    if(){
+
+                    }else{
+
+
+
+                    }
+
+
+            */
+            return 0;
+    }else{
+            return 1;
+    }
+
+
+    }
 
 
 }
+
+
+
+void EliminaPersonaje (Personaje *p){
+    free(p);///
+
+}
+
+void EvaluaPersonaje(Personaje *p){
+    if(p->ptSalud<=0){
+        BuscarEnT(p);
+        Tablero [posi][posj] ->personaje==NULL;
+        EliminaPersonaje(Personaje *p);
+    }else{
+        return;
+
+
+    }
+
+
+
+}
+
+
+int PuedeAtacar(Personaje *p){
+    if(p->ptAccion<2){
+        return 0;
+
+    }else{
+        return 1;
+    }
+
+}
+
 
 
 void atacar (Personaje *p){
@@ -617,13 +714,33 @@ void atacar (Personaje *p){
     scanf("%c", &a);
     printf("Ingrese su Fila\n");
     scanf("%d", &i);
-
+    
     j= ConvertirLetra(a);
 
-    if (Tablero[j][i]->personaje==NULL){
+    if (Tablero[i][j]->personaje==NULL){
         printf("No hay personaje en ese terreno \n");
 
+    }else{
+        if(FueraDRango(Personaje p, j, i)){
+            printf("El personaje que se quiere atacar esta fuera de rango \n");
+
+        }else{
+            if(PuedeAtacar(p)){
+                ataca(p, Tablero[i][j]->personaje);
+                EvaluaPersonaje(p);
+
+            }else{
+                printf("El personaje con el que se quiere atacar NO tiene los suficientes puntos de accion \n");
+
+            }
+            
+
+        }
+
     }
+
+
+
 }
 
 void consultarCasilla(){
