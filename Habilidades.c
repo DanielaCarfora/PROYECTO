@@ -1,3 +1,9 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+
+
 srand (time(NULL)); //Inicializa la funcion rand() segun el tiempo de la computadora lo que genera distintos pivotes al correr el código
 
 
@@ -105,7 +111,7 @@ int Evalhabilidad(Personaje p, Habilidad h)
 
 
 ///Para saber si hay un personaje en un terreno del tablero
-//Devuelve 1 si hay un personaje Devuelve 0 sino
+//Devuelve 1 si hay un personaje Devuelve 0 sino 
 int HayPersonaje(Terreno *t){
     return (t->personaje!=NULL)
 }
@@ -128,7 +134,7 @@ void afectaPersonaje(){
         }else{
             t->personaje->ptEnergia=(t->personaje->ptEnergia)*0.50; //elimina el 50% de la cantidad de puntos de energía TOTAL del personaje
         }
-
+        
 
 
     }
@@ -142,7 +148,7 @@ void afectaPersonaje(){
 
 void incendiar (Terreno *t)
 {
-    t->efecto = INCENDIADO;
+    t->efecto = INCENDIADO; 
     if (HayPersonaje(t)){
         afectaPeronaje(t);
     }
@@ -150,7 +156,7 @@ void incendiar (Terreno *t)
 
 void congelar (Terreno *t)
 {
-    t->efecto = CONGELADO;
+    t->efecto = CONGELADO;   
     if (HayPersonaje(*t)){
         afectaPeronaje(*t);
     }
@@ -166,7 +172,7 @@ void electrocutar(Terreno *t)
 
 void restaurar(Terreno *t)
 {
-    t->efecto = RESTAURAR;
+    t->efecto = RESTAURAR;	
 }
 
 
@@ -231,12 +237,12 @@ int posi, posj;                 ///Variables para maneja el tablero en los ataqu
 //El primer parametro qu recibe es el personaja que esta atacando y el segundo es el que esta siendo atacado
 
 void ataca (Personaje *p1, Personaje *p2){
-
+    
     int dan = p1->danio;
 
     int evac = p2->evasion; ///Evacion del personaje atacado
     int arm = p2->armadura; ///armadura del personaje atacado
-
+    p1->ptAccion=p1->ptAccion-2;
 
     int n=rand() %100;
 
@@ -337,13 +343,68 @@ int ConvertirLetra(char a){
 
 }
 
+int FueraDRango(Personaje *p, int j, int i ){
+    BuscarEnT(p);
+    int rang=p->rango;
+    int k, l;
+
+    for(k=posi-rang; k<=posi+rang; k++){
+
+    if(((j<=posj+rang )&&(j>posj))|| (j>=posj-rang &&(j<posj))){
+           /* if(((i<=posi+rang )&&(i>posi))|| (i>=posi-rang &&(i<posi))){
+                return 0;
+                    if(){
+
+                    }else{
 
 
 
+                    }
+
+
+            */
+            return 0;
+    }else{
+            return 1;
+    }
+
+
+    }
+
+
+}
+
+
+void EliminaPersonaje (Personaje *p){
+    free(p);///
+
+}
+
+void EvaluaPersonaje(Personaje *p){
+    if(p->ptSalud<=0){
+        BuscarEnT(p);
+        Tablero [posi][posj] ->personaje==NULL;
+        EliminaPersonaje(Personaje *p);
+    }else{
+        return;
+
+
+    }
 
 
 
+}
 
+
+int PuedeAtacar(Personaje *p){
+    if(p->ptAccion<2){
+        return 0;
+
+    }else{
+        return 1;
+    }
+
+}
 
 
 void atacar (Personaje *p){
@@ -359,41 +420,38 @@ void atacar (Personaje *p){
     scanf("%c", &a);
     printf("Ingrese su Fila\n");
     scanf("%d", &i);
-
+    
     j= ConvertirLetra(a);
 
     if (Tablero[i][j]->personaje==NULL){
         printf("No hay personaje en ese terreno \n");
 
     }else{
-        if(FueraDRango){
+        if(FueraDRango(Personaje p, j, i)){
             printf("El personaje que se quiere atacar esta fuera de rango \n");
 
         }else{
-            ataca(p, Tablero[i][j]->personaje);
-            EvaluaPersonaje(p);
+            if(PuedeAtacar(p)){
+                ataca(p, Tablero[i][j]->personaje);
+                EvaluaPersonaje(p);
+
+            }else{
+                printf("El personaje con el que se quiere atacarno tiene los suficientes puntos de accion \n");
+
+            }
+            
 
         }
 
     }
 
-}
 
 
 
-void EliminaPersonaje (Personaje *p){
-    free(p);///
 
-}
 
-void EvaluaPersonaje(Personaje *p){
-    if(p->ptSalud<=0){
-        BuscarEnT(p);
-        Tablero [posi][posj] ->personaje==NULL;
-        EliminaPersonaje(Personaje *p);
-    }else{
-        return;
-    }
+
+
 
 
 
