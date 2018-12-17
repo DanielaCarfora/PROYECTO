@@ -1,16 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-
-
-
-srand (time(NULL));
+srand (time(NULL)); //Inicializa la funcion rand() segun el tiempo de la computadora lo que genera distintos pivotes al correr el código
 
 
 
 ///Variables Globales
 
-const int saludMax=50;
+const int saludMax=100;
 
 
 
@@ -31,6 +25,25 @@ typedef struct s_personaje
 }STRUCT_PER;
 
 typedef STRUCT_PER *Personaje;
+
+
+Personaje NewMago (int jug, int orden){
+    //orden tiene el orden el que juega el personaje
+    Personaje p=malloc(sizeof(Personaje));
+    p->nombre = "Mago";
+    p->ptSalud=100;
+    p->ptEnergia=50;
+    p->inventario=NULL;
+    p->habilidades=createListaH();
+    p->danio=10;
+    p->rango=6;
+    p->evasion=50;
+    p->jugador=jug;
+    p->ptAccion=0;
+    p->velocidad=orden;
+
+    return p;
+}
 
 
 enum efecto
@@ -201,28 +214,6 @@ Habilidad create_Restaurar(){
     return h;
 }
 
-
-///******************************Inicializa un personaje
-
-Personaje NewMago (int jug, int orden){
-    //orden tiene el orden el que juega el personaje
-    Personaje p=malloc(sizeof(Personaje));
-    p->nombre = "Mago";
-    p->ptSalud=100;
-    p->ptEnergia=50;
-    p->inventario=NULL;
-    p->habilidades=createListaH();
-    p->danio=10;
-    p->rango=6;
-    p->evasion=50;
-    p->jugador=jug;
-    p->ptAccion=0;
-    p->velocidad=orden;
-
-    return p;
-}
-
-
 ///****************************************************************************************
 ///****************************************************************************************
 ///****************************************************************************************
@@ -308,9 +299,49 @@ int ConvertirLetra(char a){
     if(a=='J'){
         return 9;
     }
+    if(a=='K'){
+        return 10;
+    }
+    if(a=='L'){
+        return 11;
+    }
+    if(a=='M'){
+        return 12;
+    }
+    if(a=='N'){
+        return 13;
+    }
+    if(a=='O'){
+        return 14;
+    }
+    if(a=='P'){
+        return 15;
+    }
+    if(a=='Q'){
+        return 16;
+    }
+    if(a=='R'){
+        return 17;
+    }
+    if(a=='S'){
+        return 18;
+    }
+    if(a=='T'){
+        return 19;
+    }
+    
+
+
+
 
 
 }
+
+
+
+
+
+
 
 
 
@@ -331,8 +362,18 @@ void atacar (Personaje *p){
     
     j= ConvertirLetra(a);
 
-    if (Tablero[j][i]->personaje==NULL){
+    if (Tablero[i][j]->personaje==NULL){
         printf("No hay personaje en ese terreno \n");
+
+    }else{
+        if(FueraDRango){
+            printf("El personaje que se quiere atacar esta fuera de rango \n");
+
+        }else{
+            ataca(p, Tablero[i][j]->personaje);
+            EvaluaPersonaje(p);
+
+        }
 
     }
 
@@ -349,3 +390,21 @@ void atacar (Personaje *p){
 }
 
 
+
+void EliminaPersonaje (Personaje *p){
+    free(p);///
+
+}
+
+void EvaluaPersonaje(Personaje *p){
+    if(p->ptSalud<=0){
+        BuscarEnT(p);
+        Tablero [posi][posj] ->personaje==NULL;
+        EliminaPersonaje(Personaje *p);
+    }else{
+        return;
+    }
+
+
+
+}
