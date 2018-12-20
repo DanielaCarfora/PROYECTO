@@ -522,18 +522,19 @@ void afectaPersonaje(Terreno t){
 
         }
         if (t->efecto == ELECTRIFICADO){
-            if ((t->personaje->ptEnergia)*0.50<=0){
+            if ((t->personaje->ptEnergia)*0.50<=0)
                 t->personaje->ptEnergia=1;          ///Los puntos de energía no pueden bajar de 0
-
+            
             }else{
                 t->personaje->ptEnergia=(t->personaje->ptEnergia)*0.50; //elimina el 50% de la cantidad de puntos de energía TOTAL del personaje
             }
-
-}
-}
-    /*if (t->efecto == NINGUNO){
-        t->personaje->ptSalud=(saludMax*0.30)+(t->personaje->ptSalud); ///Cura el 30% de los puntos de salud del personaje
-    }*/
+        if(t->efecto == RESTAURAR){
+            t->personaje->ptSalud= t->personaje->ptSalud + (saludMax *0.30);
+            if(t->personaje->ptSalud>100){
+                ptSalud=100;
+            }
+        }   
+    }
 }
 
 void incendiar (Terreno t)
