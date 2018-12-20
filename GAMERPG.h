@@ -416,6 +416,19 @@ return p1;
 }
 */
 
+void ShowCPersonaje(Personaje p){
+    printf("\nNombre: %s"
+           "\nPuntos de Salud: %d"
+           "\nPuntos de Energia: %d"
+           "\nDanio: %d"
+           "\nRango: %d"
+           "\nArmadura: %d"
+           "\nEvasion: %d"
+           "\nVelocidad: %d"
+           "\nPuntos de Accion: %d"
+           "\nJugador: %d \n"
+           ,p->nombre, p->ptSalud, p->ptEnergia, p->danio, p->rango, p->armadura, p->evasion, p->velocidad, p->ptAccion, p->jugador);
+ }
 
 void selectPersonajes(personajes){
     int n1,s1;
