@@ -64,7 +64,7 @@ typedef STRUCT_PER *Personaje;
 
 
 
-typedef struct  s_habilidad;
+typedef struct  s_habilidad
 {
 	char nombre [16];
 	int costoEnergia;
@@ -106,7 +106,7 @@ typedef struct turno {
     int pi;     //Posicion en filas del personaje
     int pj;     //Posicion en columnas del personaje
     int velocity;   //Velocidad del personaje;
-    turnos *tnext;
+    struct turnos *tnext;
 
 
 }Turno;
@@ -226,7 +226,7 @@ void mostrar_hab(ListaHab *L){
 
 void mostrar_ite(ListaIte *L){
 
-    NODO_LHAB *q = *L; // q es un apuntador a NODO_LHAB, apunta al inicio de la Lista
+    NODO_LITE *q = *L; // q es un apuntador a NODO_LHAB, apunta al inicio de la Lista
 
     if(q==NULL){
         printf("\nNo posee items\n");
@@ -299,7 +299,6 @@ Item pop(PilaInv *p){
     item = q->items;
     free(q);
 
-	Terreno
 
     return item; // falta agregarlo al terreno actual
 
@@ -318,7 +317,7 @@ Item top(PilaInv *P){
 Personaje NewMago (int jug, int turno){
     //orden tiene el orden el que juega el personaje
     Personaje p=malloc(sizeof(Personaje));
-    p->nombre = "Mago";
+    strcpy(p->nombre, "Mago");
     p->ptSalud=100;
     p->ptEnergia=50;
     p->inventario= newPilaInv();
@@ -337,7 +336,7 @@ Personaje NewMago (int jug, int turno){
 Personaje NewSoldado (int jug, int turno){
     //orden tiene el orden el que juega el personaje
     Personaje p=malloc(sizeof(Personaje));
-    p->nombre = "Soldado";
+    strcpy(p->nombre = "Soldado");
     p->ptSalud=100;
     p->ptEnergia=70;
     p->inventario= newPilaInv();
@@ -356,7 +355,7 @@ Personaje NewSoldado (int jug, int turno){
 Personaje NewArquero (int jug, int turno){
     //orden tiene el orden el que juega el personaje
     Personaje p=malloc(sizeof(Personaje));
-    p->nombre = "Arquero";
+    strcpy(p->nombre = "Arquero");
     p->ptSalud=100;
     p->ptEnergia=40;
     p->inventario= newPilaInv;
@@ -375,7 +374,7 @@ Personaje NewArquero (int jug, int turno){
 Personaje NewDuende (int jug, int turno){
     //orden tiene el orden el que juega el personaje
     Personaje p=malloc(sizeof(Personaje));
-    p->nombre = "Duende";
+    strcpy(p->nombre = "Duende");
     p->ptSalud=100;
     p->ptEnergia=60;
     p->inventario= newPilaInv;
@@ -398,8 +397,7 @@ Personaje NewDuende (int jug, int turno){
 
 //############################ Operaciones sobre TAD
 
-<<<<<<< HEAD:GAMERPG.h
-=======
+
 /*
 Personaje selectPersonaje(int ttt){
 int n1;
@@ -418,7 +416,7 @@ return p1;
 }
 */
 
->>>>>>> master:PROYECTO COMPU.h
+
 void selectPersonajes(personajes){
     int n1,s1;
     Personaje *p1, *p2, *p3, *p4;
@@ -434,11 +432,7 @@ void selectPersonajes(personajes){
         case 3: p1 = NewArquero(1,1);
         case 4: p1 = NewDuende(1,1);
 }
-<<<<<<< HEAD:GAMERPG.h
-    
-=======
-	
->>>>>>> master:PROYECTO COMPU.h
+
 
     switch(s1){
         case 1: p2 = NewMago(1,3);
@@ -446,11 +440,7 @@ void selectPersonajes(personajes){
         case 3: p2 = NewArquero(1,3);
         case 4: p2 = NewDuende(1,3);
 }
-<<<<<<< HEAD:GAMERPG.h
-    
-=======
-	
->>>>>>> master:PROYECTO COMPU.h
+
 
     printf("Personajes del jugador 1 creados exitosamente\n");
     printf("1. Mago\n2.Soldado\n3.Arquero\n4.Duende\n");
