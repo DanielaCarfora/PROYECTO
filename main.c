@@ -92,6 +92,7 @@ int main(){
                                 /*revisa el item que se encuentra al tope del inventario, si el item es un
                                 ARMA o ARMADURA, lo equipa en el campo correspondiente
                                 y el item que se encontraba previamente equipado pasa ahora al tope del inventario.*/
+                                busquedaItems(first(personajes));
                                 break;
                             case 4:
                                 Item z=top(&Personaje->inventario);

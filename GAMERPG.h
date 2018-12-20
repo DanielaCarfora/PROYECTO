@@ -183,6 +183,7 @@ ListaHab newListaH(){
     return NULL;
 }
 
+
 void insertar_hab(ListaHab *L, Habilidad habilidad){ // revisa si funciona Mariana
 
 	 NODO_LHAB *q = malloc(sizeof(NODO_LHAB));
@@ -337,7 +338,7 @@ void push(PilaInv *p, Item item){
 	*p = q;
 }
 
-Item pop(PilaInv *p){
+Item pop(PilaInv *p){ // Elimina del inventario del personaje 
 
     if (p==NULL) return 0;
 	NODO_PINV *q = *p; //Variable auxiliar para manipular el nodo. Apunta al primero.
@@ -550,6 +551,32 @@ void busquedaItem(PilaInv p, ListaIte a, Item ite){ // Recibe el Item a buscar, 
 		Item b=pop(&p);
 		insertar_ite(&a,b);
 	}
+}
+
+void busquedaItems(Personaje p){
+    int y,i,j;
+    do{
+        printf("\nEl item es:");
+        Item ite=top(p->inventario);
+        puts(ite->nombre);
+        printf("\n1)Siguiente item \n2)Usar \n 3)Salir");
+        scanf("%d",&y);
+        switch(y){
+            case 1:{
+                insertarItem(p,ite);
+                pop(&(p->inventario));
+                break;
+            case 2:
+                printf("\nIngrese coordenadas del tablero:" );
+                scanf("%d %d",&i,&j);
+                insertarItem(p,ite);
+                pop(&(p->inventario));
+                break;
+            case 3:
+                break; // Rregresa al menu anterior
+            }
+        }
+    }
 }
 
 ///--------------------Funcion para evaluar si se puede aplicar una habilidad
@@ -816,7 +843,7 @@ void EliminaPersonaje(Personaje per){
             BuscarEnT(per);
             Terreno t[posi][posj];
             insertar_ite(t->items,ite); // agrega al suelo
-            pop(per->inventario); // elimina del inventario del personaje
+            pop(&(per->inventario)); // elimina del inventario del personaje
             ite = top(per->inventario);
         }
         t->personaje = NULL;
@@ -1016,21 +1043,14 @@ void usarHabilidad(Personaje per){
     }
 }
 
-void elegirItem(Terreno t){ /*lista en orden todos los items del piso y los enumera en un menú,
-                            el jugador procede entonces a especificar uno de ellos.
-                            El item sera removido del piso y agregado al tope del inventario. */
-    /*mostrar_ite()
-    printf("Elija un item");
-TERMINAR*/
-}
 
-void usarItem(Personaje per){
+/*void usarItem(Personaje per){
     int i,j;
     printf("Ingrese las coordenadas del terreno a consultar:");
     scanf("%d,%d",&i,&j);
 
 }
-
+*/
 
 //############################ Fin operaciones  del TAD ###################################
 
