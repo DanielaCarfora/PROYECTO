@@ -102,20 +102,7 @@ typedef struct s_terreno
 typedef STRUCT_TER *Terreno;
 
 
-typedef struct turno {
-    int pi;     //Posicion en filas del personaje
-    int pj;     //Posicion en columnas del personaje
-    int velocity;   //Velocidad del personaje;
-    struct turno *tnext;
-
-
-}Turno;
-
-typedef Turno *Turnos;
-
-
 Terreno Tablero [10][20];
-
 
 
 int main(){
