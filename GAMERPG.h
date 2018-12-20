@@ -1126,7 +1126,11 @@ void usarHabilidad(Personaje per){
 */
 
 //############################ Fin operaciones  del TAD ###################################
+void SumarAccion(Personaje p){
+    p->ptAccion= p->ptAccion+5;
 
+
+}
 //-----------------------------------------------------------------------------------------
 
 #endif
