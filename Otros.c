@@ -121,3 +121,33 @@ void restaurar(Terreno t) // TERMINAR
     t->efecto = RESTAURAR;
     	afectaPeronaje(t);
 }
+
+
+
+void MoverenTablero(Personaje p){
+	int newi, newj;
+	char a;
+	mostrarTablero();
+	
+
+	printf("Ingrese la posicion a donde se quiere mover (Ejemplo :A1 -Columna: A Fila :1) \n");
+	
+	printf("Ingresa la columna \n");
+	scanf("%c", &a);
+	printf("Ingresa la fila \n");
+	scanf("%d", &newi);
+
+	newj= ConvertirLetra(a);
+
+	if(FueraDRango(p, newj, newi)){
+		//La funcion fueraDrango llama a busca tablero y establece la posicion del personaje en las variables globales posi y posj
+		printf("El movimento esta fuera del rango del personaje \n");
+
+	}else{
+		Tablero[newi][newj]->personaje= p;
+		Tablero[posi][posj]->personaje=NULL;
+	}
+
+
+
+}
