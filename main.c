@@ -7,6 +7,7 @@ int main(){
     Habilidad electrocutar = create_Electrocutar();
     Habilidad restaurar = create_Restaurar();
     int a, b,c,d;
+    // FALTA INICIALIZAR TABLERO Y LISTA DE ITEMS EN NULL
     printf("Bienvenidos al Juego de Roles\n"
           "Eliga su opcion\n"
           "1. Nueva Partida\n"
@@ -26,6 +27,8 @@ int main(){
         Cola personajes = newCola();
         selectPersonaje(personajes);
         while (1){
+          // Al inicio del turno s ele deben asignar 5 ptAccion a cada personaje
+            first(personajes)->ptAccion = (first(personajes)->ptAccion) + 5;
             printf("Escoge una opcion: \n"
                    "1)Mostrar tablero\n"
                    "2)Consultar casilla\n"
@@ -47,16 +50,16 @@ int main(){
                 consultarCasilla();
                 break;
               case 3 :
-                atacar()
+                atacar(first(personajes));
                 break;
               case 4 :
                 // Mariana terminar
                 break;
               case 5 :
-                //  Usar habilidad
+                usarHabilidad(first(personajes));
                 break;
               case 6 :
-                // usar item
+                usarItem(first(personajes));
                 break;
               case 7 :
                 Personaje pp = first(personajes);
@@ -78,10 +81,12 @@ int main(){
                             case 1: /*lista en orden todos los items del piso y los enumera en un menú,
                             el jugador procede entonces a especificar uno de ellos.
                             El item sera removido del piso y agregado al tope del inventario. */
+                                moverItem(first(personajes));
                                 break;
                             case 2: 
-                              Item w = top(&Personaje->inventario)/*remueve el tope del inventario y lo agrega a los items que se encuentran
+                              Item w = top(&((first(personajes))->inventario))/*remueve el tope del inventario y lo agrega a los items que se encuentran
                                 en la casilla donde está parado el personaje.*/
+                              insertarItem(first(personajes),w); // debe ser la lista de items del terreno en el que esta parado el personaje.
                                 break;
                             case 3: 
                                 /*revisa el item que se encuentra al tope del inventario, si el item es un
@@ -90,7 +95,7 @@ int main(){
                                 break;
                             case 4:
                                 Item z=top(&Personaje->inventario);
-                                printf("El tope del inventario es: %s", z->nombre); // No estoy clara.
+                                printf("El tope del inventario es: %s", z->nombre);
                                 break;
                             case 5:
                                 break; // vuelve al menu anterior

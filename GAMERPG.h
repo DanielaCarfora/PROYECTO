@@ -212,11 +212,25 @@ void mostrar_hab(ListaHab *L){
         }
     }
 }
-///Booleano: 1 si x está, 0 si NO
-int estaEn(Item ite, ListaIte*L){
+
+Item estaEn(ListaIte*L,int n){
     NODO_LITE *q = *L; // q es un apuntador a NODO_LITE, apunta al inicio de la Lista
-    while(q != NULL && q->item != ite) q = q->sig;
-    return q != NULL;
+    int j=1; // contador para el numero de item deseado
+    Item ite = q->items;
+    while(q != NULL && j!=n){
+        q = q->sig;
+        j++;
+        ite = q->items;
+    }
+    if (q != NULL) return ite;
+    else return 0;
+}
+
+
+
+void mostarItem(Personaje p){ // Funcion auxiliar para mostrar items.
+    BuscarEnT(p);
+    mostrar_ite(&(Terreno[posi][posj]->items));
 }
 
 void mostrar_ite(ListaIte *L){
@@ -229,15 +243,23 @@ void mostrar_ite(ListaIte *L){
 
         printf("Items:\n\n");
 
+        int n=1; // contador para el numero de items 
+
         while (q!=NULL){
-            printf("%s\n",q->items->nombre);
+            printf("%d. %s\n",n,q->items->nombre);
             printf("Costo: %d\n",q->items->costo);
             printf("Rango: %d\n",q->items->rango);
             printf("\n");
 
             q= q->sig;
+            n++;
         }
     }
+}
+
+void insertarItem(Personaje p, Item ite){ // Funcion auxiliar para insertar item en el terreno
+    BuscarEnT(p);
+    insertar_ite((&(Terreno[posi][posj])->items),ite);
 }
 
 void insertar_ite(ListaIte*L, Item ite){ // Iserta Item en el terreno
@@ -249,20 +271,33 @@ void insertar_ite(ListaIte*L, Item ite){ // Iserta Item en el terreno
 }
 
 void eliminar_ite(ListaIte*L, Item ite){ // Elimina la primera ocurrencia del item de la lista L
-    NODO_LITE *q = *L, *q; // q es un apuntador a NODO_LITE, apunta al inicio de la Lista
+    NODO_LITE *p = *L, *q; // p es un apuntador a NODO_LITE, apunta al inicio de la Lista
     if (p != NULL){
-        if (p->val == x){
+        if (p->items == ite){
             *L = p->sig;
             free(p);
     }
         else {
-            while (p->sig != NULL && (p->sig)->val != x) p = p->sig;
+            while (p->sig != NULL && (p->sig)->items != ite) p = p->sig;
             if (p->sig != NULL) {
                 q = p->sig;
                 p->sig = q->sig;
                 free(q);
             }
         }
+    }
+}
+
+void moverItem(Personaje p){
+    mostrarItem(p);
+    int i;
+    printf("indique el numero de item deseado:");
+    scanf("%d", &i);
+    BuscarEnT(p);
+    Item ite = estaEn(&((Terreno[posi][posj])->items),i);
+    if (ite!=NULL){
+        push(p->inventario,ite);
+        eliminar_ite((&(Terreno[posi][posj])->items),ite);
     }
 }
 ////########################## Fin de Operaciones de listas ###############################
@@ -542,7 +577,6 @@ int HayPersonaje(Terreno t){
     return (t->personaje!=NULL);
 }
 
-
 void afectaPersonaje(Terreno t){
     if (HayPersonaje(t)){
         if (t->efecto == INCENDIADO){
@@ -568,6 +602,8 @@ void afectaPersonaje(Terreno t){
         t->efecto=NINGUNO;
 
         }
+
+        if(t->personaje->)
 
 		}
 	}
@@ -606,6 +642,8 @@ Item create_psalud(Terreno t){
     ite->costo = 3;
     ite->rango = 0;
     ite->efecto= &pSalud;
+
+    return ite;
 }
 
 Item create_penergia(Terreno t){
@@ -614,6 +652,8 @@ Item create_penergia(Terreno t){
     ite->costo = 3;
     ite->rango = 0;
     ite->efecto= &pEnergia;
+
+    return ite;
 }
 
 Item create_gnul(Terreno t){
@@ -622,6 +662,8 @@ Item create_gnul(Terreno t){
     ite->costo = 5;
     ite->rango = 5;
     ite->efecto =&gnul;
+
+    return ite;
 }
 
 Habilidad create_incendiar(){
@@ -885,7 +927,7 @@ void MoverenTablero(Personaje p){
 
 }
 
-void EscribeDestino(int *di,int *dj){
+/*void EscribeDestino(int *di,int *dj){
     printf("\nDestino\n");
 
     do{
@@ -906,7 +948,7 @@ int ConfirmaDestino(int *oi,int *oj,int *di, int *dj) {
      }else return 0;
 }
 
-
+*/
 
 
 //Inserta los turnos de mayor a menor
