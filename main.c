@@ -2,7 +2,7 @@
 #include "GAMERPG.h"
 
 int main(){
-    Terreno Tablero = newTerreno();
+    newTerreno();
     Habilidad incendiar = create_incendiar();
     Habilidad congelar = create_congelar();
     Habilidad electrocutar = create_Electrocutar();
@@ -54,7 +54,7 @@ int main(){
                 atacar(first(personajes));
                 break;
               case 4 :
-                // Mariana terminar
+                MoverenTablero(first(personajes));
                 break;
               case 5 :
                 usarHabilidad(first(personajes));
