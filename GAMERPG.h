@@ -37,8 +37,6 @@ Item pop(PilaInv *P);
 void insertar_hab(ListaHab *L, Habilidad habilidad);
 void mostrar_hab(ListaHab *L);
 
-
-
 //-----------------------------------------------------------------------------------------
 
 //############################ Estructuras de los TAD's ###################################
@@ -74,6 +72,8 @@ typedef struct  s_habilidad;
 }STRUCT_HAB;
 
 typedef STRUCT_HAB *Habilidad;
+
+
 
 typedef struct s_item
 {
@@ -163,6 +163,8 @@ typedef struct nodo_lhab{
 
 typedef NODO_LHAB *ListaHab;
 
+
+
 typedef struct nodo_lite
 {
     Item items;
@@ -182,10 +184,10 @@ ListaHab newListaH(){
     return NULL;
 }
 
-void insertar_hab(ListaHab *L, Habilidad habilidad){ // revisa si funciona Mariana
+void insertar_hab(ListaHab *L, Habilidad hab){ 
 
      NODO_LHAB *q = malloc(sizeof(NODO_LHAB));
-     q->habilidad = habilidad;
+     q->hab = hab;
      q->sig = *L;
      *L = q;
 }
@@ -540,24 +542,25 @@ void afectaPersonaje(Terreno t){
 void incendiar (Terreno t)
 {
     t->efecto = INCENDIADO;
-        afectaPeronaje(t);
+    afectaPeronaje(t);
 }
 
 void congelar (Terreno t)
 {
     t->efecto = CONGELADO;
-        afectaPeronaje(t);
+    afectaPeronaje(t);
 }
 
 void electrocutar(Terreno t)
 {
     t->efecto = ELECTRIFICADO;
-        afectaPeronaje(t);
+    afectaPeronaje(t);
 }
 
-void restaurar(Terreno t) // TERMINAR
+void restaurar(Terreno t) 
 {
     t->efecto = RESTAURAR;
+    afectaPeronaje(t);
 }
 
 
