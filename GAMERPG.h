@@ -446,22 +446,17 @@ Personaje NewDuende (int jug, int turno){
 
 //############################ Operaciones sobre TAD
 
-
-/*
-Personaje selectPersonaje(int ttt){
-int n1;
-printf("1. Mago\n2.Soldado\n3.Arquero\n4.Duende\n");
-printf("Selecione el numero de su personaje:\n");
-scanf("%d",n1);
-switch(n1){
-        case 1: Personaje p1 = NewMago(1,ttt);
-        case 2: Personaje p1 = NewSoldado(1,ttt);
-        case 3: Personaje p1 = NewArquero(1,ttt);
-        case 4: Personaje p1 = NewDuende(1,ttt);
+Terreno newTerreno(){
+    Terreno Tablero[10][20]; 
+    for(int i=0; i<10; i++){
+        for(int j=0; j<20; j++){
+            Tablero[i][j]->personaje=NULL;
+            Tablero[i][j]->efecto=NINGUNO;
+            Tablero[i][j]->items=NULL;
+        }
+    }
+    return Tablero[10][20];
 }
-return p1;
-}
-*/
 
 void ShowCPersonaje(Personaje p){
     printf("\nNombre: %s"

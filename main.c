@@ -2,6 +2,7 @@
 #include "GAMERPG.h"
 
 int main(){
+    Terreno Tablero = newTerreno();
     Habilidad incendiar = create_incendiar();
     Habilidad congelar = create_congelar();
     Habilidad electrocutar = create_Electrocutar();
