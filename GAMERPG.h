@@ -389,7 +389,7 @@ Personaje NewSoldado (int jug, int turno){
     Personaje p=malloc(sizeof(Personaje));
     strcpy(p->nombre, "Soldado");
     p->ptSalud=100;
-    p->ptEnergia=70;
+    p->ptEnergia=50;
     p->inventario= newPilaInv();
     p->habilidades=newListaH();
     p->danio=20;
@@ -408,7 +408,7 @@ Personaje NewArquero (int jug, int turno){
     Personaje p=malloc(sizeof(Personaje));
     strcpy(p->nombre, "Arquero");
     p->ptSalud=100;
-    p->ptEnergia=40;
+    p->ptEnergia=50;
     p->inventario= newPilaInv;
     p->habilidades= newListaH();
     p->danio=20;
@@ -427,7 +427,7 @@ Personaje NewDuende (int jug, int turno){
     Personaje p=malloc(sizeof(Personaje));
     strcpy(p->nombre,"Duende");
     p->ptSalud=100;
-    p->ptEnergia=60;
+    p->ptEnergia=50;
     p->inventario= newPilaInv;
     p->habilidades=newListaH();
     p->danio=10;
