@@ -215,8 +215,8 @@ void mostrar_hab(ListaHab *L){
 ///Booleano: 1 si x está, 0 si NO
 int estaEn(Item ite, ListaIte*L){
     NODO_LITE *q = *L; // q es un apuntador a NODO_LITE, apunta al inicio de la Lista
-    while(p != NULL && p->val != x) p = p->sig;
-    return p != NULL;
+    while(q != NULL && q->item != ite) q = q->sig;
+    return q != NULL;
 }
 
 void mostrar_ite(ListaIte *L){
@@ -254,7 +254,7 @@ void eliminar_ite(ListaIte*L, Item ite){ // Elimina la primera ocurrencia del it
         if (p->val == x){
             *L = p->sig;
             free(p);
-    } 
+    }
         else {
             while (p->sig != NULL && (p->sig)->val != x) p = p->sig;
             if (p->sig != NULL) {
@@ -529,6 +529,12 @@ int Evalhabilidad(Personaje p, Habilidad h)
 
 }
 
+int Evalitem(Personaje p, Item ite){
+    if(p->ptAccion < ite->costoAccion)return 0;
+
+    return 1;
+}
+
 
 ///Para saber si hay un personaje en un terreno del tablero
 //Devuelve 1 si hay un personaje Devuelve 0 sino
@@ -594,6 +600,29 @@ void restaurar(Terreno t) // TERMINAR
     	afectaPeronaje(t);
 }
 
+Item create_psalud(Terreno t){
+    Item ite = malloc(sizeof(Item));
+    strcpy(ite->nombre, "PosionSalud");
+    ite->costo = 3;
+    ite->rango = 0;
+    ite->efecto= &pSalud;
+}
+
+Item create_penergia(Terreno t){
+    Item ite = malloc(sizeof(Item));
+    strcpy(ite->nombre, "PosionEnergia");
+    ite->costo = 3;
+    ite->rango = 0;
+    ite->efecto= &pEnergia;
+}
+
+Item create_gnul(Terreno t){
+    Item ite = malloc(sizeof(Item));
+    strcpy(ite->nombre, "GranadaNulificadora");
+    ite->costo = 5;
+    ite->rango = 5;
+    ite->efecto =&gnul;
+}
 
 Habilidad create_incendiar(){
     Habilidad h=malloc(sizeof(Habilidad));
@@ -898,22 +927,22 @@ void BuscarTurnos (Turnos *T){
 
 }
 */
-void elegirHabilidad(){
+void usarHabilidad(Personaje per){
     int h; // alamacena el numero de la habiliad escogida por el usuario
     printf("Ingrese el numero de la habilidad deseada:\n1.Incendiar\n2.Congelar\n3.Electrocutar\n4.Restaurar");
     scanf("%d",h);
     switch(h){
         case 1:
-            Evalhabilidad();
+            Evalhabilidad(per,incendiar);
             break;
         case 2:
-            Evalhabilidad();
+            Evalhabilidad(per, congelar);
             break;
         case 3:
-            Evalhabilidad();
+            Evalhabilidad(per, electrocutar);
             break;
         case 4:
-            Evalhabilidad();
+            Evalhabilidad(per, restaurar);
             break;
 
     }
@@ -925,6 +954,13 @@ void elegirItem(Terreno t){ /*lista en orden todos los items del piso y los enum
     /*mostrar_ite()
     printf("Elija un item");
 TERMINAR*/
+}
+
+void usarItem(Personaje per){
+    int i,j;
+    printf("Ingrese las coordenadas del terreno a consultar:");
+    scanf("%d,%d",&i,&j);
+
 }
 
 
