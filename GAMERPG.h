@@ -8,6 +8,7 @@
 ///Variables Globales
 
 const int saludMax= 100;
+const int ptEnergiaMag= 50;
 
 int posi, posj;                 ///Variables para maneja el tablero en los ataques
 
@@ -446,18 +447,6 @@ Personaje NewDuende (int jug, int turno){
 
 //############################ Operaciones sobre TAD
 
-Terreno newTerreno(){
-    Terreno Tablero[10][20]; 
-    for(int i=0; i<10; i++){
-        for(int j=0; j<20; j++){
-            Tablero[i][j]->personaje=NULL;
-            Tablero[i][j]->efecto=NINGUNO;
-            Tablero[i][j]->items=NULL;
-        }
-    }
-    return Tablero[10][20];
-}
-
 void ShowCPersonaje(Personaje p){
     printf("\nNombre: %s"
            "\nPuntos de Salud: %d"
@@ -528,18 +517,7 @@ queue(p4, personajes);
     return 0;
 }
 
-void MostrarTablero(){
-    Terreno Tablero[10][20];
-    for(int i=0; i<10; i++){
-        for(int j=0; j<20; j++){
-                if(Tablero[i][j]->efecto!=NINGUNO) Tablero[i][j]= 178;
-                if(Tablero[i][j]->personaje!=NULL) Tablero[i][j]= Tablero[i][j]->personaje->inicial;
-                if(Tablero[i][j]->items!=NULL) Tablero[i][j]= '*';
-                else Tablero[i][j]=176;
-            printf("%c",Tablero[i][j]);
-        } printf("\n");
-    }
-}
+
 
 void busquedaItem(PilaInv p, ListaIte a, Item ite){ // Recibe el Item a buscar, la pila de inventario y la lista del terreno.
 	while(p!=NULL && ite != p->items){
@@ -602,19 +580,19 @@ int HayPersonaje(Terreno t){
 void afectaPersonaje(Terreno t){
     if (HayPersonaje(t)){
         if (t->efecto == INCENDIADO){
-            t->personaje->ptSalud=(t->personaje->ptSalud)*0.70; ///Incendia la casilla objetivo y causa 30% de daño a los puntos de salud ACTUALES
+            t->personaje->ptSalud=(t->personaje->ptSalud)*0.70; ///Incendia la casilla objetivo y causa 30% de daÃ±o a los puntos de salud ACTUALES
         }
 
         if (t->efecto == CONGELADO){
-            t->personaje->ptAccion=0;               ///Reduce a cero los puntos de acción que tenga el personaje
+            t->personaje->ptAccion=0;               ///Reduce a cero los puntos de acciÃ³n que tenga el personaje
 
         }
         if (t->efecto == ELECTRIFICADO){
             if ((t->personaje->ptEnergia)*0.50<=0){
-                t->personaje->ptEnergia=1;          ///Los puntos de energía no pueden bajar de 0
+                t->personaje->ptEnergia=1;          ///Los puntos de energÃ­a no pueden bajar de 0
 
             }else{
-                t->personaje->ptEnergia=(t->personaje->ptEnergia)*0.50; //elimina el 50% de la cantidad de puntos de energía TOTAL del personaje
+                t->personaje->ptEnergia=(t->personaje->ptEnergia)*0.50; //elimina el 50% de la cantidad de puntos de energÃ­a TOTAL del personaje
             }
         if(t->efecto == RESTAURAR){
         	t->personaje->ptSalud= t->personaje->ptSalud + (saludMax *0.30);
@@ -657,7 +635,72 @@ void restaurar(Terreno t) // TERMINAR
     t->efecto = RESTAURAR;
     	afectaPeronaje(t);
 }
+///-------------------------------------------------------Para Items
 
+void pSalud(Terreno t){
+    if(t->personaje->ptAccion>=3){
+        t->personaje->ptSalud= t->personaje->ptSalud+(saludMax*0.30);
+        t->personaje->ptAccion=(t->personaje->ptAccion)-3;
+        if(t->personaje->ptSalud>100){
+            t->personaje->ptSalud=100;
+        }
+
+
+    }else{
+        printf("El personaje no tiene suficientes puntos de acccion \n");
+
+
+    }
+
+    
+}
+
+
+
+void pEnergia(Terreno t){
+    if(t->personaje->ptAccion>=3){
+        t->personaje->ptEnergia=t->personaje->ptEnergia +(ptEnergiaMag+*0.30);
+        t->personaje->ptAccion=(t->personaje->ptAccion)-3;
+        if(t->personaje->ptEnergia>50){
+            t->personaje->ptEnergia=50;
+        }
+
+
+    }else{
+        printf("El personaje no tiene suficientes puntos de acccion \n");
+
+
+    }
+}
+
+void gnul(Terreno t){
+    if(t->personaje->ptAccion>=5){
+        
+        for(int i=0; i<10; i++){
+            for(int j=0; j<20; j++){
+                if(Tablero[i][j]==t){
+                    posi=i;
+                    posj=j;
+
+                }
+            }
+        }
+
+        for(i=posi-1; i<posi+2; i++ ){
+            for(j=posj-1; j<posj+2; j++){
+                Tablero[i][j]->efecto=NINGUNO;
+            }
+        }
+
+
+    }else{
+        printf("El personaje no tiene suficientes puntos de acccion \n");
+
+
+    }
+}
+
+///---------------------------------------------------------------------------------------------------------------------
 Item create_psalud(Terreno t){
     Item ite = malloc(sizeof(Item));
     strcpy(ite->nombre, "PosionSalud");
@@ -687,6 +730,14 @@ Item create_gnul(Terreno t){
 
     return ite;
 }
+
+
+
+
+
+
+
+
 
 Habilidad create_incendiar(){
     Habilidad h=malloc(sizeof(Habilidad));
@@ -777,6 +828,33 @@ void ataca (Personaje p1, Personaje p2){
 Terreno Tablero [10][20];
 
 
+void MostrarTablero(){
+
+
+    for(int i=0; i<10; i++){
+        for(int j=0; j<20; j++){
+                if(Tablero[i][j]->efecto!=NINGUNO) Tablero[i][j]= 178;
+                if(Tablero[i][j]->personaje!=NULL) Tablero[i][j]= Tablero[i][j]->personaje->inicial;
+                if(Tablero[i][j]->items!=NULL) Tablero[i][j]= '*';
+                else Tablero[i][j]=176;
+            printf("%c",Tablero[i][j]);
+        } printf("\n");
+    }
+}
+
+
+
+void newTerreno(){
+
+    for(int i=0; i<10; i++){
+        for(int j=0; j<20; j++){
+            Tablero[i][j]->personaje=NULL;
+            Tablero[i][j]->efecto=NINGUNO;
+            Tablero[i][j]->items=NULL;
+        }
+    }
+
+}
 ///---------------------------------------------------------------------------------------------
 ///---------------------------------------------------------------------------------------------
 ///---------------------------------------------------------------------------------------------
