@@ -7,7 +7,8 @@
 
 ///Variables Globales
 
-Terreno Tablero [10][20];
+const int saludMax= 100;
+
 int posi, posj;                 ///Variables para maneja el tablero en los ataques
 
 typedef struct s_personaje STRUCT_PER;
@@ -37,25 +38,27 @@ Item pop(PilaInv *P);
 void insertar_hab(ListaHab *L, Habilidad habilidad);
 void mostrar_hab(ListaHab *L);
 
+
+
 //-----------------------------------------------------------------------------------------
 
 //############################ Estructuras de los TAD's ###################################
 
 typedef struct s_personaje
 {
-    char nombre [16];
-    int ptSalud;
-    int ptEnergia;
-    PilaInv inventario;
-    ListaHab habilidades;
-    int danio;
-    int rango;
-    int armadura; // de 0 a 100
-    int evasion; // de 0 a 100
-    int velocidad;
-    int ptAccion;
-    int jugador; // jugador al cual pertenece el jugador
-    char inicial; // inicial del nombre a mostrar en el tablero
+	char nombre [16];
+	int ptSalud;
+	int ptEnergia;
+	PilaInv inventario;
+	ListaHab habilidades;
+	int danio;
+	int rango;
+	int armadura; // de 0 a 100
+	int evasion; // de 0 a 100
+	int velocidad;
+	int ptAccion;
+	int jugador; // jugador al cual pertenece el jugador
+	char inicial; // inicial del nombre a mostrar en el tablero
 }STRUCT_PER;
 
 typedef STRUCT_PER *Personaje;
@@ -64,39 +67,37 @@ typedef STRUCT_PER *Personaje;
 
 typedef struct  s_habilidad
 {
-    char nombre [16];
-    int costoEnergia;
-    int costoAccion;
-    int rango;
-    void (*efecto)(Terreno*);
+	char nombre [16];
+	int costoEnergia;
+	int costoAccion;
+	int rango;
+	void (*efecto)(Terreno*);
 }STRUCT_HAB;
 
 typedef STRUCT_HAB *Habilidad;
 
-
-
 typedef struct s_item
 {
-    char nombre [32];
-    int costo;
-    int rango;
-    void (*efecto)(Terreno*);
+	char nombre [32];
+	int costo;
+	int rango;
+	void (*efecto)(Terreno*);
 }STRUCT_ITE;
 
 typedef STRUCT_ITE *Item;
 
 enum efecto
 {
-    NINGUNO, ELECTRIFICADO, INCENDIADO, CONGELADO
+	NINGUNO, ELECTRIFICADO, INCENDIADO, CONGELADO, RESTAURAR
 };
 
 typedef enum efecto Efecto;
 
 typedef struct s_terreno
 {
-    Personaje personaje;
-    Efecto efecto;
-    ListaIte items;
+	Personaje personaje;
+	Efecto efecto;
+	ListaIte items;
 }STRUCT_TER;
 
 typedef STRUCT_TER *Terreno;
@@ -157,18 +158,16 @@ void dqueue(Cola c){
 
 typedef struct nodo_lhab{
 
-    Habilidad habilidad;
-    struct nodo_lhab *sig;
+	Habilidad habilidad;
+	struct nodo_lhab *sig;
 }NODO_LHAB;
 
 typedef NODO_LHAB *ListaHab;
 
-
-
 typedef struct nodo_lite
 {
-    Item items;
-    struct nodo_lite *sig;
+	Item items;
+	struct nodo_lite *sig;
 }NODO_LITE;
 
 typedef NODO_LITE *ListaIte;
@@ -184,10 +183,10 @@ ListaHab newListaH(){
     return NULL;
 }
 
-void insertar_hab(ListaHab *L, Habilidad hab){ 
+void insertar_hab(ListaHab *L, Habilidad habilidad){ // revisa si funciona Mariana
 
-     NODO_LHAB *q = malloc(sizeof(NODO_LHAB));
-     q->hab = hab;
+	 NODO_LHAB *q = malloc(sizeof(NODO_LHAB));
+	 q->habilidad = habilidad;
      q->sig = *L;
      *L = q;
 }
@@ -213,27 +212,25 @@ void mostrar_hab(ListaHab *L){
         }
     }
 }
-
-
-///Booleano: 1 si x estÃ¡, 0 si NO
+///Booleano: 1 si x está, 0 si NO
 int estaEn(Item ite, ListaIte*L){
     NODO_LITE *q = *L; // q es un apuntador a NODO_LITE, apunta al inicio de la Lista
     while(p != NULL && p->val != x) p = p->sig;
     return p != NULL;
 }
 
-void mostrar_ite(ListaIte *L){ // muestra los items del terreno
+void mostrar_ite(ListaIte *L){
 
-    NODO_LHAB *q = *L; // q es un apuntador a NODO_LHAB, apunta al inicio de la Lista
+    NODO_LITE *q = *L; // q es un apuntador a NODO_LHAB, apunta al inicio de la Lista
 
     if(q==NULL){
         printf("\nNo posee items\n");
     }else{
-        int z=1;
+
         printf("Items:\n\n");
 
         while (q!=NULL){
-            printf("%d. %s\n",z,q->items->nombre);
+            printf("%s\n",q->items->nombre);
             printf("Costo: %d\n",q->items->costo);
             printf("Rango: %d\n",q->items->rango);
             printf("\n");
@@ -244,8 +241,8 @@ void mostrar_ite(ListaIte *L){ // muestra los items del terreno
 }
 
 void insertar_ite(ListaIte*L, Item ite){ // Iserta Item en el terreno
-    NODO_LITE *q = *L; // q es un apuntador a NODO_LITE, apunta al inicio de la Lista
-    q->Items = ite;
+	NODO_LITE *q = *L; // q es un apuntador a NODO_LITE, apunta al inicio de la Lista
+	q->items = ite;
     q->sig = *L;
     *L = q;
 
@@ -268,9 +265,6 @@ void eliminar_ite(ListaIte*L, Item ite){ // Elimina la primera ocurrencia del it
         }
     }
 }
-
-
-}
 ////########################## Fin de Operaciones de listas ###############################
 
 //-----------------------------------------------------------------------------------------
@@ -279,8 +273,8 @@ void eliminar_ite(ListaIte*L, Item ite){ // Elimina la primera ocurrencia del it
 
 typedef struct nodo_pinv
 {
-    Item items;
-    struct nodo_pinv *sig;
+	Item items;
+	struct nodo_pinv *sig;
 }NODO_PINV;
 
 typedef NODO_PINV *PilaInv;
@@ -297,21 +291,21 @@ PilaInv newPilaInv(){
 
 void push(PilaInv *p, Item item){
 
-    //crear un nuevo nodo
-    NODO_PINV *q = malloc(sizeof(NODO_PINV));
-    q->items = item;
+	//crear un nuevo nodo
+	NODO_PINV *q = malloc(sizeof(NODO_PINV));
+	q->items = item;
 
-    //agregamos la pila a continuacion del nuevo nodo
-    q->sig = *p;
+	//agregamos la pila a continuacion del nuevo nodo
+	q->sig = *p;
 
-    //El comienzo de la pila es el nuevo nodo
-    *p = q;
+	//El comienzo de la pila es el nuevo nodo
+	*p = q;
 }
 
 Item pop(PilaInv *p){
 
     if (p==NULL) return 0;
-    NODO_PINV *q = *p; //Variable auxiliar para manipular el nodo. Apunta al primero.
+	NODO_PINV *q = *p; //Variable auxiliar para manipular el nodo. Apunta al primero.
     Item item; //variable auxiliar para retornar el item
 
     *p = (*p)->sig;
@@ -323,7 +317,7 @@ Item pop(PilaInv *p){
 
 }
 
-Item top(PilaInv *P){
+Item top(PilaInv p){
     return p->items;
 }
 
@@ -337,6 +331,7 @@ Personaje NewMago (int jug, int turno){
     //orden tiene el orden el que juega el personaje
     Personaje p=malloc(sizeof(Personaje));
     strcpy(p->nombre, "Mago");
+
     p->ptSalud=100;
     p->ptEnergia=50;
     p->inventario= newPilaInv();
@@ -355,7 +350,7 @@ Personaje NewMago (int jug, int turno){
 Personaje NewSoldado (int jug, int turno){
     //orden tiene el orden el que juega el personaje
     Personaje p=malloc(sizeof(Personaje));
-    strcpy(p->nombre = "Soldado");
+    strcpy(p->nombre, "Soldado");
     p->ptSalud=100;
     p->ptEnergia=70;
     p->inventario= newPilaInv();
@@ -374,7 +369,7 @@ Personaje NewSoldado (int jug, int turno){
 Personaje NewArquero (int jug, int turno){
     //orden tiene el orden el que juega el personaje
     Personaje p=malloc(sizeof(Personaje));
-    strcpy(p->nombre = "Arquero");
+    strcpy(p->nombre, "Arquero");
     p->ptSalud=100;
     p->ptEnergia=40;
     p->inventario= newPilaInv;
@@ -393,7 +388,7 @@ Personaje NewArquero (int jug, int turno){
 Personaje NewDuende (int jug, int turno){
     //orden tiene el orden el que juega el personaje
     Personaje p=malloc(sizeof(Personaje));
-    strcpy(p->nombre = "Duende");
+    strcpy(p->nombre,"Duende");
     p->ptSalud=100;
     p->ptEnergia=60;
     p->inventario= newPilaInv;
@@ -408,7 +403,6 @@ Personaje NewDuende (int jug, int turno){
 
     return p;
 }
-
 //############################ Fin primittivas del TAD ####################################
 
 //-----------------------------------------------------------------------------------------
@@ -429,9 +423,7 @@ switch(n1){
         case 3: Personaje p1 = NewArquero(1,ttt);
         case 4: Personaje p1 = NewDuende(1,ttt);
 }
-
 return p1;
-
 }
 */
 
@@ -477,10 +469,10 @@ void selectPersonajes(personajes){
     printf("Personajes del jugador 1 creados exitosamente\n");
     printf("1. Mago\n2.Soldado\n3.Arquero\n4.Duende\n");
     printf("Su turno jugador 2...\n Selecion el numero se primer personaje:\n");
-    scanf("%d",n2);
+    scanf("%d",n1);
     printf("Selecione el numero de su segundo personaje:\n");
-    scanf("%d",s2);
-    switch(n2){
+    scanf("%d",s1);
+    switch(n1){
         case 1: p3 = NewMago(2,2);
         case 2: p3 = NewSoldado(2,2);
         case 3: p3 = NewArquero(2,2);
@@ -488,7 +480,7 @@ void selectPersonajes(personajes){
 }
 
 
-    switch(s2){
+    switch(s1){
         case 1: p4 = NewMago(2,4);
         case 2: p4 = NewSoldado(2,4);
         case 3: p4 = NewArquero(2,4);
@@ -500,13 +492,17 @@ queue(p3, personajes);
 queue(p2, personajes);
 queue(p4, personajes);
 
+
+
+    return 0;
 }
 
 void MostrarTablero(){
+    Terreno Tablero[10][20];
     for(int i=0; i<10; i++){
         for(int j=0; j<20; j++){
-                if(Tablero[i][j]->efecto!=NINGUNO) Tablero[i][j]=178;
-                if(Tablero[i][j]->personaje!=NULL) Tablero[i][j]= Personaje->inicial;
+                if(Tablero[i][j]->efecto!=NINGUNO) Tablero[i][j]= 178;
+                if(Tablero[i][j]->personaje!=NULL) Tablero[i][j]= Tablero[i][j]->personaje->inicial;
                 if(Tablero[i][j]->items!=NULL) Tablero[i][j]= '*';
                 else Tablero[i][j]=176;
             printf("%c",Tablero[i][j]);
@@ -514,12 +510,11 @@ void MostrarTablero(){
     }
 }
 
-void busquedaItem(PilaInv*p, ListaIte*a, item ite){ // Recibe el Item a buscar, la pila de inventario y la lista del terreno para agegarlo.
-    while(p!=NULL && ite != p->items){
-        Item b=pop(&p);
-        insertar_ite(&a,b)
-    }
-    return 0;
+void busquedaItem(PilaInv p, ListaIte a, Item ite){ // Recibe el Item a buscar, la pila de inventario y la lista del terreno.
+	while(p!=NULL && ite != p->items){
+		Item b=pop(&p);
+		insertar_ite(&a,b);
+	}
 }
 
 ///--------------------Funcion para evaluar si se puede aplicar una habilidad
@@ -527,8 +522,8 @@ void busquedaItem(PilaInv*p, ListaIte*a, item ite){ // Recibe el Item a buscar, 
 //retorna uno si se puede usar la habilidad
 int Evalhabilidad(Personaje p, Habilidad h)
 {
-    if(p>ptAccion < h->costoAccion)return 0;
-    if(p>ptEnergia < h->costoAccion)return 0;
+    if(p->ptAccion < h->costoAccion)return 0;
+    if(p->ptEnergia < h->costoAccion)return 0;
 
     return 1;
 
@@ -538,65 +533,71 @@ int Evalhabilidad(Personaje p, Habilidad h)
 ///Para saber si hay un personaje en un terreno del tablero
 //Devuelve 1 si hay un personaje Devuelve 0 sino
 int HayPersonaje(Terreno t){
-    return (t->personaje!=NULL)
+    return (t->personaje!=NULL);
 }
-
 
 
 void afectaPersonaje(Terreno t){
     if (HayPersonaje(t)){
         if (t->efecto == INCENDIADO){
-            t->personaje->ptSalud=(t->personaje->ptSalud)*0.70; ///Incendia la casilla objetivo y causa 30% de daÃ±o a los puntos de salud ACTUALES
+            t->personaje->ptSalud=(t->personaje->ptSalud)*0.70; ///Incendia la casilla objetivo y causa 30% de daño a los puntos de salud ACTUALES
         }
 
         if (t->efecto == CONGELADO){
-            t->personaje->ptAccion=0;               ///Reduce a cero los puntos de acciÃ³n que tenga el personaje
+            t->personaje->ptAccion=0;               ///Reduce a cero los puntos de acción que tenga el personaje
 
         }
         if (t->efecto == ELECTRIFICADO){
-            if ((t->personaje->ptEnergia)*0.50<=0)
-                t->personaje->ptEnergia=1;          ///Los puntos de energÃ­a no pueden bajar de 0
-            
+            if ((t->personaje->ptEnergia)*0.50<=0){
+                t->personaje->ptEnergia=1;          ///Los puntos de energía no pueden bajar de 0
+
             }else{
-                t->personaje->ptEnergia=(t->personaje->ptEnergia)*0.50; //elimina el 50% de la cantidad de puntos de energÃ­a TOTAL del personaje
+                t->personaje->ptEnergia=(t->personaje->ptEnergia)*0.50; //elimina el 50% de la cantidad de puntos de energía TOTAL del personaje
             }
         if(t->efecto == RESTAURAR){
-            t->personaje->ptSalud= t->personaje->ptSalud + (saludMax *0.30);
-            if(t->personaje->ptSalud>100){
-                ptSalud=100;
-            }
-        }   
-    }
+        	t->personaje->ptSalud= t->personaje->ptSalud + (saludMax *0.30);
+        	if(t->personaje->ptSalud>100){
+        		t->personaje->ptSalud=100;
+        	}
+        t->efecto=NINGUNO;
+
+        }
+
+		}
+	}
+    /*if (t->efecto == NINGUNO){
+        t->personaje->ptSalud=(saludMax*0.30)+(t->personaje->ptSalud); ///Cura el 30% de los puntos de salud del personaje
+    }*/
 }
 
 void incendiar (Terreno t)
 {
     t->efecto = INCENDIADO;
-    afectaPeronaje(t);
+        afectaPeronaje(t);
 }
 
 void congelar (Terreno t)
 {
     t->efecto = CONGELADO;
-    afectaPeronaje(t);
+        afectaPeronaje(t);
 }
 
 void electrocutar(Terreno t)
 {
     t->efecto = ELECTRIFICADO;
-    afectaPeronaje(t);
+        afectaPeronaje(t);
 }
 
-void restaurar(Terreno t) 
+void restaurar(Terreno t) // TERMINAR
 {
     t->efecto = RESTAURAR;
-    afectaPeronaje(t);
+    	afectaPeronaje(t);
 }
 
 
 Habilidad create_incendiar(){
     Habilidad h=malloc(sizeof(Habilidad));
-    h->nombre = "Incendiar";
+    strcpy(h->nombre,"Incendiar");
     h->costoEnergia = 2;
     h->costoAccion = 7;
     h->rango= 3;
@@ -607,7 +608,7 @@ Habilidad create_incendiar(){
 
 Habilidad create_congelar(){
     Habilidad h=malloc(sizeof(Habilidad));
-    h->nombre = "Congelar";
+    strcpy(h->nombre,"Congelar");
     h->costoEnergia = 4;
     h->costoAccion = 4;
     h->rango= 3;
@@ -618,7 +619,8 @@ Habilidad create_congelar(){
 
 Habilidad create_Electrocutar(){
     Habilidad h=malloc(sizeof(Habilidad));
-    h->nombre = "Electrocutar";
+    strcpy(h->nombre,"Electrocutar");
+
     h->costoEnergia = 10;
     h->costoAccion = 5;
     h->rango= 4;
@@ -629,7 +631,8 @@ Habilidad create_Electrocutar(){
 
 Habilidad create_Restaurar(){
     Habilidad h=malloc(sizeof(Habilidad));
-    h->nombre = "Restaurar";
+    strcpy(h->nombre,"Restaurar");
+
     h->costoEnergia = 5;
     h->costoAccion = 4;
     h->rango= 2;
@@ -654,7 +657,7 @@ void ataca (Personaje p1, Personaje p2){
 
     int evac = p2->evasion; ///Evacion del personaje atacado
     int arm = p2->armadura; ///armadura del personaje atacado
-    p1->ptAccion=p1->ptAccion-2;
+	p1->ptAccion=p1->ptAccion-2;
 
     int n=rand() %100;
 
@@ -671,9 +674,23 @@ void ataca (Personaje p1, Personaje p2){
 
 }
 
+///---------------------------------------------------------------------------------------------
+///---------------------------------------------------------------------------------------------
+///---------------------------------------------------------------------------------------------
+///---------------------------------------------------------------------------------------------
+///---------------------------------------------------------------------------------------------
+
+
+Terreno Tablero [10][20];
+
+
+///---------------------------------------------------------------------------------------------
+///---------------------------------------------------------------------------------------------
+///---------------------------------------------------------------------------------------------
+///---------------------------------------------------------------------------------------------
 
 ///Funcion para buscar un personaje en el tablero
-void BuscarEnT(Personaje p){ // CREO QUE DEBERIA DEVOLVER UN TERREN0
+void BuscarEnT(Personaje p){
     for(int i=0; i<10; i++){
         for(int j=0; j<20; j++){
             if(Tablero[i][j]->personaje==p){
@@ -715,6 +732,7 @@ int FueraDRango(Personaje p, int j, int i ){
     }
 }
 
+
 int EvaluaPersonaje(Personaje p){
     return(p->ptSalud<=0){
     }
@@ -745,6 +763,8 @@ int PuedeAtacar(Personaje p){
 
 }
 
+
+
 void atacar (Personaje p){
 
     BuscarEnT(p);
@@ -765,7 +785,7 @@ void atacar (Personaje p){
         printf("No hay personaje en ese terreno \n");
 
     }else{
-        if(FueraDRango(Personaje p, j, i)){
+        if(FueraDRango( p, j, i)){
             printf("El personaje que se quiere atacar esta fuera de rango \n");
 
         }else{
@@ -804,9 +824,10 @@ void consultarCasilla(){
             printf("CONGELADO");
             break;
                }
-        if(HayPersonaje(Tablero[i][j])) printf(%c, (Tablero[i][j]->personaje)->nombre); // FUNCION IMPRIMIR DATOS PERSONAJE
+        if(HayPersonaje(Tablero[i][j])) printf("%c", (Tablero[i][j]->personaje)->nombre); // FUNCION IMPRIMIR DATOS PERSONAJE
         if(Tablero[i][j]->items!=NULL)mostrar_ite(Tablero[i][j]->items);
 }
+
 
 
 void EscribeDestino(int *di,int *dj){
@@ -823,21 +844,69 @@ void EscribeDestino(int *di,int *dj){
     }while(*dj<0 || *dj>7);
 }
 
-int ConfirmaDestino(int *oi,int *oj,int *di, int *dj, Terreno Tablero[10][20]) {
+
+int ConfirmaDestino(int *oi,int *oj,int *di, int *dj) {
      if(oj+1==dj || oj-1==dj){
         if(oi+1==di || oi-1==di)return 1;
      }else return 0;
 }
 
+
+
+
+//Inserta los turnos de mayor a menor
+// Turnos *T DEBE ser variable global??????????????
+
+
+/*
+void insertOrdturnos (int ppi, int ppj, int vv, Turnos T){
+    Turno *p =malloc(sizeof(Turno)), *q;
+    p->velocity=vv;
+    p->pi=ppi;
+    p->pj=ppj;
+    if(T==NULL || vv>(T)->velocity){
+        p->tnext=T;
+        T=p;
+    }else{
+        q=T;
+        while(q->tnext!=NULL && vv<(q->tnext)->velocity) q=q->tnext;
+        p->tnext=q->tnext; q->tnext=p;
+
+
+    }
+
+}
+*/
+
+//Busca en el tablero los personajes para asignarles un turno
+/*
+void BuscarTurnos (Turnos *T){
+    *T=NULL;
+
+    for(int i=0; i<10; i++){
+        for(int j=0; j<20; j++){
+            if(Tablero[i][j]->personaje!=NULL){
+                insertOrdturnos(i, j,(Tablero[i][j]->personaje)->velocity);
+
+
+            }
+        }
+    }
+
+
+
+
+}
+*/
 void elegirHabilidad(){
     int h; // alamacena el numero de la habiliad escogida por el usuario
     printf("Ingrese el numero de la habilidad deseada:\n1.Incendiar\n2.Congelar\n3.Electrocutar\n4.Restaurar");
     scanf("%d",h);
     switch(h){
-        case 1: 
+        case 1:
             Evalhabilidad();
             break;
-        case 2: 
+        case 2:
             Evalhabilidad();
             break;
         case 3:
@@ -850,7 +919,7 @@ void elegirHabilidad(){
     }
 }
 
-void elegirItem(Terreno t){ /*lista en orden todos los items del piso y los enumera en un menÃº,
+void elegirItem(Terreno t){ /*lista en orden todos los items del piso y los enumera en un menú,
                             el jugador procede entonces a especificar uno de ellos.
                             El item sera removido del piso y agregado al tope del inventario. */
     /*mostrar_ite()
@@ -858,10 +927,9 @@ void elegirItem(Terreno t){ /*lista en orden todos los items del piso y los enum
 TERMINAR*/
 }
 
-//############################ Fin operaciones  del TAD ###################################
 
+//############################ Fin operaciones  del TAD ###################################
 
 //-----------------------------------------------------------------------------------------
 
 #endif
-
