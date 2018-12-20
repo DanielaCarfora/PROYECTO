@@ -466,13 +466,9 @@ queue(p3, personajes);
 queue(p2, personajes);
 queue(p4, personajes);
 
-
-
-    return 0;
 }
 
 void MostrarTablero(){
-    Terreno Tablero[10][20];
     for(int i=0; i<10; i++){
         for(int j=0; j<20; j++){
                 if(Tablero[i][j]->efecto!=NINGUNO) Tablero[i][j]=178;
@@ -484,7 +480,7 @@ void MostrarTablero(){
     }
 }
 
-void busquedaItem(PilaInv*p, ListaIte*a, item ite){ // Recibe el Item a buscar, la pila de inventario y la lista del terreno.
+void busquedaItem(PilaInv*p, ListaIte*a, item ite){ // Recibe el Item a buscar, la pila de inventario y la lista del terreno para agegarlo.
     while(p!=NULL && ite != p->items){
         Item b=pop(&p);
         insertar_ite(&a,b)
@@ -685,29 +681,23 @@ int FueraDRango(Personaje p, int j, int i ){
     }
 }
 
-
-void EliminaPersonaje(Terreno t){
-    Personaje p = t->personaje;
-    Item ite = top(t->personaje->inventario);
-    while(ite!=NULL){  /// AGREGAR AL SUELO ITEMS
-        insertar_ite(t->items,ite); // agrega al suelo
-        pop(t->personaje->inventario); // elimina de del inventario del personaje
-        ite = top(t->personaje->inventario);
+int EvaluaPersonaje(Personaje p){
+    return(p->ptSalud<=0){
     }
-
-    t->personaje = NULL;
-    free(p);
 }
 
-void EvaluaPersonaje(Personaje p){
-    if(p->ptSalud<=0){
-        BuscarEnT(p);
-        Tablero [posi][posj] ->personaje==NULL;
-        EliminaPersonaje(); // FALTA PARAMETRO DE LA FUNCION (TERRENO)
-    }
-    else{
-        return;
-    }
+void EliminaPersonaje(Personaje per){
+    if (EvaluaPersonaje(per)){
+        Item ite = top(per->inventario);
+        while(ite!=NULL){  /// AGREGAR AL SUELO ITEMS
+            BuscarEnT(per);
+            Terreno t[posi][posj];
+            insertar_ite(t->items,ite); // agrega al suelo
+            pop(per->inventario); // elimina del inventario del personaje
+            ite = top(per->inventario);
+        }
+        t->personaje = NULL;
+        free(per);
 }
 
 

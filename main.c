@@ -60,9 +60,12 @@ int main(){
                 break;
               case 7 :
                 Personaje pp = first(personajes);
-                dequeue(personajes);
-                queue(pp,personajes);
-                // AGREGAR FUNCION DE EVALUAR
+                if (EvaluaPersonaje(pp)){
+                  EliminaPersonaje(pp); 
+                else {
+                  dequeue(personajes);
+                  queue(pp,personajes);
+                }
                 break;
               case 8 : printf("\n1)Recoger item"
                                 "\n2)Soltar item"
