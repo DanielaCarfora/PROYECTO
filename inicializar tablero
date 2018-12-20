@@ -1,0 +1,11 @@
+Terreno newTablero(){
+    Terreno Tablero[10][20]; 
+    for(int i=0; i<10; i++){
+        for(int j=0; j<20; j++){
+            Tablero[i][j]->personaje=NULL;
+            Tablero[i][j]->efecto=NINGUNO;
+            Tablero[i][j]->items=NULL;
+        }
+    }
+    return Tablero[10][20];
+}
