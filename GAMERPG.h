@@ -235,7 +235,6 @@ Item estaEn(ListaIte*L,int n){
 }
 
 
-
 void mostarItem(Personaje p){ // Funcion auxiliar para mostrar items.
     BuscarEnT(p);
     mostrar_ite(&(Terreno[posi][posj]->items));
@@ -463,376 +462,7 @@ void SumarAccion(Personaje p){ // Al inicio de cada turno se suman 5 puntos de a
 
 }
 
-void ShowCPersonaje(Personaje p){ // Imprime personaje 
-    printf("\nNombre: %s"
-           "\nPuntos de Salud: %d"
-           "\nPuntos de Energia: %d"
-           "\nDanio: %d"
-           "\nRango: %d"
-           "\nArmadura: %d"
-           "\nEvasion: %d"
-           "\nVelocidad: %d"
-           "\nPuntos de Accion: %d"
-           "\nJugador: %d \n"
-           ,p->nombre, p->ptSalud, p->ptEnergia, p->danio, p->rango, p->armadura, p->evasion, p->velocidad, p->ptAccion, p->jugador);
- }
-
-void selectPersonajes(personajes){
-    int n1,s1,n2,s2;
-    Personaje *p1, *p2, *p3, *p4;
-    printf("1. Mago\n2.Soldado\n3.Arquero\n4.Duende\n");
-    printf("Jugador 1\n");
-    printf("Selecione el numero de su primer personaje:\n");
-    scanf("%d",n1);
-    printf("Selecione el numero de su segundo personaje:\n");
-    scanf("%d",s1);
-    switch(n1){
-        case 1: p1 = NewMago(1,1);
-        case 2: p1 = NewSoldado(1,1);
-        case 3: p1 = NewArquero(1,1);
-        case 4: p1 = NewDuende(1,1);
-}
-
-
-    switch(s1){
-        case 1: p2 = NewMago(1,3);
-        case 2: p2 = NewSoldado(1,3);
-        case 3: p2 = NewArquero(1,3);
-        case 4: p2 = NewDuende(1,3);
-}
-
-
-    printf("Personajes del jugador 1 creados exitosamente\n");
-    printf("1. Mago\n2.Soldado\n3.Arquero\n4.Duende\n");
-    printf("Su turno jugador 2...\n Selecion el numero se primer personaje:\n");
-    scanf("%d",n1);
-    printf("Selecione el numero de su segundo personaje:\n");
-    scanf("%d",s1);
-    switch(n1){
-        case 1: p3 = NewMago(2,2);
-        case 2: p3 = NewSoldado(2,2);
-        case 3: p3 = NewArquero(2,2);
-        case 4: p3 = NewDuende(2,2);
-}
-
-
-    switch(s1){
-        case 1: p4 = NewMago(2,4);
-        case 2: p4 = NewSoldado(2,4);
-        case 3: p4 = NewArquero(2,4);
-        case 4: p4 = NewDuende(2,4);
-}
-
-queue(p1, personajes);
-queue(p3, personajes);
-queue(p2, personajes);
-queue(p4, personajes);
-
-
-
-    return 0;
-}
-
-
-void busquedaItems(Personaje p){
-    int y,i,j;
-    do{
-        printf("\nEl item disponible es:");
-        Item ite=top(p->inventario);
-        puts(ite->nombre);
-        printf("Elija la accion a tomar:");
-        printf("\n1)Siguiente item \n2)Usar \n 3)Salir");
-        scanf("%d",&y);
-        switch(y){
-            case 1:{
-                insertarItem(p,ite); // Inserto Item al terreno
-                pop(&(p->inventario)); // Elimino item del inventario del personaje
-                break;
-            case 2:
-                printf("\nIngrese coordenadas del tablero para usar item:" );
-                scanf("%d %d",&i,&j);
-                insertarItemT(p,ite,i,j);
-                pop(&(p->inventario));
-                break;
-            case 3:
-                break; // Rregresa al menu anterior
-            }
-        }
-    }
-}
-
-///--------------------Funcion para evaluar si se puede aplicar una habilidad
-// La funcion retorna cero si el personaje no tiene los puntos de accion o la energia necesaria para usar la habilidad
-//retorna uno si se puede usar la habilidad
-int Evalhabilidad(Personaje p, Habilidad h)
-{
-    if(p->ptAccion < h->costoAccion)return 0;
-    if(p->ptEnergia < h->costoAccion)return 0;
-
-    return 1;
-
-}
-
-int Evalitem(Personaje p, Item ite){
-    if(p->ptAccion < ite->costoAccion)return 0;
-
-    return 1;
-}
-
-
-///Para saber si hay un personaje en un terreno del tablero
-//Devuelve 1 si hay un personaje Devuelve 0 sino
-int HayPersonaje(Terreno t){
-    return (t->personaje!=NULL);
-}
-
-void afectaPersonaje(Terreno t){
-    if (HayPersonaje(t)){
-        if (t->efecto == INCENDIADO){
-            t->personaje->ptSalud=(t->personaje->ptSalud)*0.70; ///Incendia la casilla objetivo y causa 30% de daño a los puntos de salud ACTUALES
-        }
-
-        if (t->efecto == CONGELADO){
-            t->personaje->ptAccion=0;               ///Reduce a cero los puntos de acción que tenga el personaje
-
-        }
-        if (t->efecto == ELECTRIFICADO){
-            if ((t->personaje->ptEnergia)*0.50<=0){
-                t->personaje->ptEnergia=1;          ///Los puntos de energía no pueden bajar de 0
-
-            }else{
-                t->personaje->ptEnergia=(t->personaje->ptEnergia)*0.50; //elimina el 50% de la cantidad de puntos de energía TOTAL del personaje
-            }
-        if(t->efecto == RESTAURAR){
-        	t->personaje->ptSalud= t->personaje->ptSalud + (saludMax *0.30);
-        	if(t->personaje->ptSalud>100){
-        		t->personaje->ptSalud=100;
-        	}
-        t->efecto=NINGUNO;
-
-        }
-
-        if(t->personaje->)
-
-		}
-	}
-    /*if (t->efecto == NINGUNO){
-        t->personaje->ptSalud=(saludMax*0.30)+(t->personaje->ptSalud); ///Cura el 30% de los puntos de salud del personaje
-    }*/
-}
-
-void incendiar (Terreno t)
-{
-    t->efecto = INCENDIADO;
-        afectaPeronaje(t);
-}
-
-void congelar (Terreno t)
-{
-    t->efecto = CONGELADO;
-        afectaPeronaje(t);
-}
-
-void electrocutar(Terreno t)
-{
-    t->efecto = ELECTRIFICADO;
-        afectaPeronaje(t);
-}
-
-void restaurar(Terreno t) // TERMINAR
-{
-    t->efecto = RESTAURAR;
-    	afectaPeronaje(t);
-}
-///-------------------------------------------------------Para Items
-
-void pSalud(Terreno t){
-    if(t->personaje->ptAccion>=3){
-        t->personaje->ptSalud= t->personaje->ptSalud+(saludMax*0.30);
-        t->personaje->ptAccion=(t->personaje->ptAccion)-3;
-        if(t->personaje->ptSalud>100){
-            t->personaje->ptSalud=100;
-        }
-
-
-    }else{
-        printf("El personaje no tiene suficientes puntos de acccion \n");
-
-
-    }
-
-    
-}
-
-
-
-void pEnergia(Terreno t){
-    if(t->personaje->ptAccion>=3){
-        t->personaje->ptEnergia=t->personaje->ptEnergia +(ptEnergiaMag+*0.30);
-        t->personaje->ptAccion=(t->personaje->ptAccion)-3;
-        if(t->personaje->ptEnergia>50){
-            t->personaje->ptEnergia=50;
-        }
-
-
-    }else{
-        printf("El personaje no tiene suficientes puntos de acccion \n");
-
-
-    }
-}
-
-void gnul(Terreno t){
-    if(t->personaje->ptAccion>=5){
-        
-        for(int i=0; i<10; i++){
-            for(int j=0; j<20; j++){
-                if(Tablero[i][j]==t){
-                    posi=i;
-                    posj=j;
-
-                }
-            }
-        }
-
-        for(i=posi-1; i<posi+2; i++ ){
-            for(j=posj-1; j<posj+2; j++){
-                Tablero[i][j]->efecto=NINGUNO;
-            }
-        }
-
-
-    }else{
-        printf("El personaje no tiene suficientes puntos de acccion \n");
-
-
-    }
-}
-
-///---------------------------------------------------------------------------------------------------------------------
-Item create_psalud(Terreno t){
-    Item ite = malloc(sizeof(Item));
-    strcpy(ite->nombre, "PosionSalud");
-    ite->costo = 3;
-    ite->rango = 0;
-    ite->efecto= &pSalud;
-
-    return ite;
-}
-
-Item create_penergia(Terreno t){
-    Item ite = malloc(sizeof(Item));
-    strcpy(ite->nombre, "PosionEnergia");
-    ite->costo = 3;
-    ite->rango = 0;
-    ite->efecto= &pEnergia;
-
-    return ite;
-}
-
-Item create_gnul(Terreno t){
-    Item ite = malloc(sizeof(Item));
-    strcpy(ite->nombre, "GranadaNulificadora");
-    ite->costo = 5;
-    ite->rango = 5;
-    ite->efecto =&gnul;
-
-    return ite;
-}
-
-
-
-
-
-
-
-
-
-Habilidad create_incendiar(){
-    Habilidad h=malloc(sizeof(Habilidad));
-    strcpy(h->nombre,"Incendiar");
-    h->costoEnergia = 2;
-    h->costoAccion = 7;
-    h->rango= 3;
-    h->efecto= &incendiar;
-
-    return h;
-}
-
-Habilidad create_congelar(){
-    Habilidad h=malloc(sizeof(Habilidad));
-    strcpy(h->nombre,"Congelar");
-    h->costoEnergia = 4;
-    h->costoAccion = 4;
-    h->rango= 3;
-    h->efecto= &congelar;
-
-    return h;
-}
-
-Habilidad create_Electrocutar(){
-    Habilidad h=malloc(sizeof(Habilidad));
-    strcpy(h->nombre,"Electrocutar");
-
-    h->costoEnergia = 10;
-    h->costoAccion = 5;
-    h->rango= 4;
-    h->efecto= &electrocutar;
-
-    return h;
-}
-
-Habilidad create_Restaurar(){
-    Habilidad h=malloc(sizeof(Habilidad));
-    strcpy(h->nombre,"Restaurar");
-
-    h->costoEnergia = 5;
-    h->costoAccion = 4;
-    h->rango= 2;
-    h->efecto= &restaurar;
-
-    return h;
-}
-
-///****************************************************************************************
-///****************************************************************************************
-///****************************************************************************************
-///****************************************************************************************
-///*****************************Para Atacar************************************************
-
-
-///Realiza el ataque entre dos personajes
-//El primer parametro que recibe es el personaje que esta atacando y el segundo es el que esta siendo atacado
-
-void ataca (Personaje p1, Personaje p2){
-
-    int dan = p1->danio;
-
-    int evac = p2->evasion; ///Evacion del personaje atacado
-    int arm = p2->armadura; ///armadura del personaje atacado
-	p1->ptAccion=p1->ptAccion-2;
-
-    int n=rand() %100;
-
-    if (n>p2->evasion){
-        //Se produce el ataque
-        p2->ptSalud=(p2->ptSalud)- (dan-(dan*arm));
-
-
-    }else{
-        //El personaje atacado evade el ataque
-        printf("Se evadio el ataque \n");
-
-    }
-
-}
-
-///---------------------------------------------------------------------------------------------
-///---------------------------------------------------------------------------------------------
-///---------------------------------------------------------------------------------------------
-///---------------------------------------------------------------------------------------------
-///---------------------------------------------------------------------------------------------
-
+///---------------------------------TERRENO------------------------------------///
 
 Terreno Tablero [10][20];
 
@@ -911,11 +541,131 @@ int FueraDRango(Personaje p, int j, int i ){
 
     }
 }
+void consultarCasilla(){
+    int i,j;
+    printf("Ingrese las coordenadas del terreno a consultar:");
+    scanf("%d,%d",&i,&j);
+    printf("Terreno:\n");
+    switch (Tablero[i][j]->efecto){
+        case 0 :
+            printf("NINGUNO");
+            break;
+        case 1 :
+            printf("ELECTRIFICADO");
+            break;
+        case 2 :
+            printf("INCENDIADO");
+            break;
+        case 3 :
+            printf("CONGELADO");
+            break;
+               }
+        if(HayPersonaje(Tablero[i][j])) printf("%c", (Tablero[i][j]->personaje)->nombre); // FUNCION IMPRIMIR DATOS PERSONAJE
+        if(Tablero[i][j]->items!=NULL)mostrar_ite(Tablero[i][j]->items);
+}
 
+void MoverenTablero(Personaje p){
+    int newi, newj;
+    char a;
+    mostrarTablero();
+    
 
-int EvaluaPersonaje(Personaje p){
-    return(p->ptSalud<=0){
+    printf("Ingrese la posicion a donde se quiere mover (Ejemplo :A1 -Columna: A Fila :1) \n");
+    
+    printf("Ingresa la columna \n");
+    scanf("%c", &a);
+    printf("Ingresa la fila \n");
+    scanf("%d", &newi);
+
+    newj= ConvertirLetra(a);
+
+    if(FueraDRango(p, newj, newi)){
+        //La funcion fueraDrango llama a busca tablero y establece la posicion del personaje en las variables globales posi y posj
+        printf("El movimento esta fuera del rango del personaje \n");
+
+    }else{
+        Tablero[newi][newj]->personaje= p;
+        Tablero[posi][posj]->personaje=NULL;
     }
+}
+///--------------------------------------PERSONAJES------------------------------------///
+
+void ShowCPersonaje(Personaje p){ // Imprime personaje 
+    printf("\nNombre: %s"
+           "\nPuntos de Salud: %d"
+           "\nPuntos de Energia: %d"
+           "\nDanio: %d"
+           "\nRango: %d"
+           "\nArmadura: %d"
+           "\nEvasion: %d"
+           "\nVelocidad: %d"
+           "\nPuntos de Accion: %d"
+           "\nJugador: %d \n"
+           ,p->nombre, p->ptSalud, p->ptEnergia, p->danio, p->rango, p->armadura, p->evasion, p->velocidad, p->ptAccion, p->jugador);
+ }
+
+void selectPersonajes(personajes){
+    int n1,s1,n2,s2;
+    Personaje *p1, *p2, *p3, *p4;
+    printf("1. Mago\n2.Soldado\n3.Arquero\n4.Duende\n");
+    printf("Jugador 1\n");
+    printf("Selecione el numero de su primer personaje:\n");
+    scanf("%d",n1);
+    printf("Selecione el numero de su segundo personaje:\n");
+    scanf("%d",s1);
+    switch(n1){
+        case 1: p1 = NewMago(1,1);
+        case 2: p1 = NewSoldado(1,1);
+        case 3: p1 = NewArquero(1,1);
+        case 4: p1 = NewDuende(1,1);
+}
+
+
+    switch(s1){
+        case 1: p2 = NewMago(1,3);
+        case 2: p2 = NewSoldado(1,3);
+        case 3: p2 = NewArquero(1,3);
+        case 4: p2 = NewDuende(1,3);
+}
+
+
+    printf("Personajes del jugador 1 creados exitosamente\n");
+    printf("1. Mago\n2.Soldado\n3.Arquero\n4.Duende\n");
+    printf("Su turno jugador 2...\n Selecion el numero se primer personaje:\n");
+    scanf("%d",n1);
+    printf("Selecione el numero de su segundo personaje:\n");
+    scanf("%d",s1);
+    switch(n1){
+        case 1: p3 = NewMago(2,2);
+        case 2: p3 = NewSoldado(2,2);
+        case 3: p3 = NewArquero(2,2);
+        case 4: p3 = NewDuende(2,2);
+}
+
+
+    switch(s1){
+        case 1: p4 = NewMago(2,4);
+        case 2: p4 = NewSoldado(2,4);
+        case 3: p4 = NewArquero(2,4);
+        case 4: p4 = NewDuende(2,4);
+}
+
+queue(p1, personajes);
+queue(p3, personajes);
+queue(p2, personajes);
+queue(p4, personajes);
+
+
+
+    return 0;
+}
+
+
+
+///Para saber si hay un personaje en un terreno del tablero
+//Devuelve 1 si hay un personaje Devuelve 0 sino
+int HayPersonaje(Terreno t){
+    return (t->personaje!=NULL);
 }
 
 void EliminaPersonaje(Personaje per){
@@ -931,6 +681,314 @@ void EliminaPersonaje(Personaje per){
         t->personaje = NULL;
         free(per);
 }
+
+
+///-------------------------------------------------------ITEMS----------------------------------///
+
+Item create_psalud(Terreno t){
+    Item ite = malloc(sizeof(Item));
+    strcpy(ite->nombre, "PosionSalud");
+    ite->costo = 3;
+    ite->rango = 0;
+    ite->efecto= &pSalud;
+
+    return ite;
+}
+
+Item create_penergia(Terreno t){
+    Item ite = malloc(sizeof(Item));
+    strcpy(ite->nombre, "PosionEnergia");
+    ite->costo = 3;
+    ite->rango = 0;
+    ite->efecto= &pEnergia;
+
+    return ite;
+}
+
+Item create_gnul(Terreno t){
+    Item ite = malloc(sizeof(Item));
+    strcpy(ite->nombre, "GranadaNulificadora");
+    ite->costo = 5;
+    ite->rango = 5;
+    ite->efecto =&gnul;
+
+    return ite;
+}
+
+void pSalud(Terreno t){
+    if(t->personaje->ptAccion>=3){
+        t->personaje->ptSalud= t->personaje->ptSalud+(saludMax*0.30);
+        t->personaje->ptAccion=(t->personaje->ptAccion)-3;
+        if(t->personaje->ptSalud>100){
+            t->personaje->ptSalud=100;
+        }
+
+
+    }else{
+        printf("El personaje no tiene suficientes puntos de acccion \n");
+
+
+    }
+
+    
+}
+
+
+
+void pEnergia(Terreno t){
+    if(t->personaje->ptAccion>=3){
+        t->personaje->ptEnergia=t->personaje->ptEnergia +(ptEnergiaMag+*0.30);
+        t->personaje->ptAccion=(t->personaje->ptAccion)-3;
+        if(t->personaje->ptEnergia>50){
+            t->personaje->ptEnergia=50;
+        }
+
+
+    }else{
+        printf("El personaje no tiene suficientes puntos de acccion \n");
+
+
+    }
+}
+
+void gnul(Terreno t){
+    if(t->personaje->ptAccion>=5){
+        
+        for(int i=0; i<10; i++){
+            for(int j=0; j<20; j++){
+                if(Tablero[i][j]==t){
+                    posi=i;
+                    posj=j;
+
+                }
+            }
+        }
+
+        for(i=posi-1; i<posi+2; i++ ){
+            for(j=posj-1; j<posj+2; j++){
+                Tablero[i][j]->efecto=NINGUNO;
+            }
+        }
+
+
+    }else{
+        printf("El personaje no tiene suficientes puntos de acccion \n");
+
+
+    }
+}
+
+void busquedaItems(Personaje p){
+    int y,i,j;
+    do{
+        printf("\nEl item disponible es:");
+        Item ite=top(p->inventario);
+        puts(ite->nombre);
+        printf("Elija la accion a tomar:");
+        printf("\n1)Siguiente item \n2)Usar \n 3)Salir");
+        scanf("%d",&y);
+        switch(y){
+            case 1:{
+                insertarItem(p,ite); // Inserto Item al terreno
+                pop(&(p->inventario)); // Elimino item del inventario del personaje
+                break;
+            case 2:
+                printf("\nIngrese coordenadas del tablero para usar item:" );
+                scanf("%d %d",&i,&j);
+                insertarItemT(p,ite,i,j);
+                pop(&(p->inventario));
+                break;
+            case 3:
+                break; // Rregresa al menu anterior
+            }
+        }
+    }
+}
+
+void usarItem(Personaje per){
+    int i;
+    printf("Ingrese el numero del item deseado:\n1.PosionSalud\n2.PosionEnergia\n3.GranadaNulificadora\n");
+    scanf("%d",&i);
+    BuscarEnT(per);
+    switch(i){
+        case 1:
+            pSalud(Terreno[posi][posj]);
+            break;
+        case 2:
+            pEnergia(Terreno[posi][posj]);
+            break;
+        case 3:
+            gnul(Terreno[posi][posj]);
+            break;
+    }
+}
+
+
+
+///---------------------------------HABILIDADES--------------------------------------///
+
+//Funcion para evaluar si se puede aplicar una habilidad
+// La funcion retorna cero si el personaje no tiene los puntos de accion o la energia necesaria para usar la habilidad
+//retorna uno si se puede usar la habilidad
+int Evalhabilidad(Personaje p, Habilidad h)
+{
+    if(p->ptAccion < h->costoAccion)return 0;
+    if(p->ptEnergia < h->costoAccion)return 0;
+
+    return 1;
+
+}
+
+
+Habilidad create_incendiar(){
+    Habilidad h=malloc(sizeof(Habilidad));
+    strcpy(h->nombre,"Incendiar");
+    h->costoEnergia = 2;
+    h->costoAccion = 7;
+    h->rango= 3;
+    h->efecto= &incendiar;
+
+    return h;
+}
+
+Habilidad create_congelar(){
+    Habilidad h=malloc(sizeof(Habilidad));
+    strcpy(h->nombre,"Congelar");
+    h->costoEnergia = 4;
+    h->costoAccion = 4;
+    h->rango= 3;
+    h->efecto= &congelar;
+
+    return h;
+}
+
+Habilidad create_Electrocutar(){
+    Habilidad h=malloc(sizeof(Habilidad));
+    strcpy(h->nombre,"Electrocutar");
+
+    h->costoEnergia = 10;
+    h->costoAccion = 5;
+    h->rango= 4;
+    h->efecto= &electrocutar;
+
+    return h;
+}
+
+Habilidad create_Restaurar(){
+    Habilidad h=malloc(sizeof(Habilidad));
+    strcpy(h->nombre,"Restaurar");
+
+    h->costoEnergia = 5;
+    h->costoAccion = 4;
+    h->rango= 2;
+    h->efecto= &restaurar;
+
+    return h;
+}
+
+void afectaPersonaje(Terreno t){
+    if (HayPersonaje(t)){
+        if (t->efecto == INCENDIADO){
+            t->personaje->ptSalud=(t->personaje->ptSalud)*0.70; ///Incendia la casilla objetivo y causa 30% de daño a los puntos de salud ACTUALES
+        }
+
+        if (t->efecto == CONGELADO){
+            t->personaje->ptAccion=0;               ///Reduce a cero los puntos de acción que tenga el personaje
+
+        }
+        if (t->efecto == ELECTRIFICADO){
+            if ((t->personaje->ptEnergia)*0.50<=0){
+                t->personaje->ptEnergia=1;          ///Los puntos de energía no pueden bajar de 0
+
+            }else{
+                t->personaje->ptEnergia=(t->personaje->ptEnergia)*0.50; //elimina el 50% de la cantidad de puntos de energía TOTAL del personaje
+            }
+        if(t->efecto == RESTAURAR){
+            t->personaje->ptSalud= t->personaje->ptSalud + (saludMax *0.30);
+            if(t->personaje->ptSalud>100){
+                t->personaje->ptSalud=100;
+            }
+        t->efecto=NINGUNO;
+
+        }
+
+        }
+    }
+}
+
+void incendiar (Terreno t)
+{
+    t->efecto = INCENDIADO;
+        afectaPeronaje(t);
+}
+
+void congelar (Terreno t)
+{
+    t->efecto = CONGELADO;
+        afectaPeronaje(t);
+}
+
+void electrocutar(Terreno t)
+{
+    t->efecto = ELECTRIFICADO;
+        afectaPeronaje(t);
+}
+
+void restaurar(Terreno t) 
+{
+    t->efecto = RESTAURAR;
+        afectaPeronaje(t);
+}
+
+void usarHabilidad(Personaje per){
+    int h; // alamacena el numero de la habiliad escogida por el usuario
+    printf("Ingrese el numero de la habilidad deseada:\n1.Incendiar\n2.Congelar\n3.Electrocutar\n4.Restaurar");
+    scanf("%d",&h);
+    switch(h){
+        case 1:
+            Evalhabilidad(per,incendiar);
+            break;
+        case 2:
+            Evalhabilidad(per, congelar);
+            break;
+        case 3:
+            Evalhabilidad(per, electrocutar);
+            break;
+        case 4:
+            Evalhabilidad(per, restaurar);
+            break;
+
+    }
+}
+
+///---------------------------------------ATACAR--------------------------------------///
+
+///Realiza el ataque entre dos personajes
+//El primer parametro que recibe es el personaje que esta atacando y el segundo es el que esta siendo atacado
+
+void ataca (Personaje p1, Personaje p2){
+
+    int dan = p1->danio;
+
+    int evac = p2->evasion; ///Evacion del personaje atacado
+    int arm = p2->armadura; ///armadura del personaje atacado
+	p1->ptAccion=p1->ptAccion-2;
+
+    int n=rand() %100;
+
+    if (n>p2->evasion){
+        //Se produce el ataque
+        p2->ptSalud=(p2->ptSalud)- (dan-(dan*arm));
+
+
+    }else{
+        //El personaje atacado evade el ataque
+        printf("Se evadio el ataque \n");
+
+    }
+
+}
+
 
 
 int PuedeAtacar(Personaje p){
@@ -985,91 +1043,6 @@ void atacar (Personaje p){
 
 }
 
-void consultarCasilla(){
-    int i,j;
-    printf("Ingrese las coordenadas del terreno a consultar:");
-    scanf("%d,%d",&i,&j);
-    printf("Terreno:\n");
-    switch (Tablero[i][j]->efecto){
-        case 0 :
-            printf("NINGUNO");
-            break;
-        case 1 :
-            printf("ELECTRIFICADO");
-            break;
-        case 2 :
-            printf("INCENDIADO");
-            break;
-        case 3 :
-            printf("CONGELADO");
-            break;
-               }
-        if(HayPersonaje(Tablero[i][j])) printf("%c", (Tablero[i][j]->personaje)->nombre); // FUNCION IMPRIMIR DATOS PERSONAJE
-        if(Tablero[i][j]->items!=NULL)mostrar_ite(Tablero[i][j]->items);
-}
-
-void MoverenTablero(Personaje p){
-    int newi, newj;
-    char a;
-    mostrarTablero();
-    
-
-    printf("Ingrese la posicion a donde se quiere mover (Ejemplo :A1 -Columna: A Fila :1) \n");
-    
-    printf("Ingresa la columna \n");
-    scanf("%c", &a);
-    printf("Ingresa la fila \n");
-    scanf("%d", &newi);
-
-    newj= ConvertirLetra(a);
-
-    if(FueraDRango(p, newj, newi)){
-        //La funcion fueraDrango llama a busca tablero y establece la posicion del personaje en las variables globales posi y posj
-        printf("El movimento esta fuera del rango del personaje \n");
-
-    }else{
-        Tablero[newi][newj]->personaje= p;
-        Tablero[posi][posj]->personaje=NULL;
-    }
-}
-
-void usarHabilidad(Personaje per){
-    int h; // alamacena el numero de la habiliad escogida por el usuario
-    printf("Ingrese el numero de la habilidad deseada:\n1.Incendiar\n2.Congelar\n3.Electrocutar\n4.Restaurar");
-    scanf("%d",&h);
-    switch(h){
-        case 1:
-            Evalhabilidad(per,incendiar);
-            break;
-        case 2:
-            Evalhabilidad(per, congelar);
-            break;
-        case 3:
-            Evalhabilidad(per, electrocutar);
-            break;
-        case 4:
-            Evalhabilidad(per, restaurar);
-            break;
-
-    }
-}
-
-void usarItem(Personaje per){
-    int i;
-    printf("Ingrese el numero del item deseado:\n1.PosionSalud\n2.PosionEnergia\n3.GranadaNulificadora\n");
-    scanf("%d",&i);
-    switch(i){
-        case 1:
-            Evalitem(per,pSalud);
-            break;
-        case 2:
-            Evalitem(per,pEnergia);
-            break;
-        case 3:
-            Evalitem(per,gnul);
-            break;
-    }
-}
 
 
 //############################ Fin operaciones  del TAD ###################################
