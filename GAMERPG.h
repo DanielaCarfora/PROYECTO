@@ -77,6 +77,8 @@ typedef struct  s_habilidad
 
 typedef STRUCT_HAB *Habilidad;
 
+
+
 typedef struct s_item
 {
 	char nombre [32];
@@ -87,12 +89,16 @@ typedef struct s_item
 
 typedef STRUCT_ITE *Item;
 
+
+
 enum efecto
 {
 	NINGUNO, ELECTRIFICADO, INCENDIADO, CONGELADO, RESTAURAR
 };
 
 typedef enum efecto Efecto;
+
+
 
 typedef struct s_terreno
 {
@@ -110,7 +116,7 @@ typedef STRUCT_TER *Terreno;
 
 ////########################## Manejo de colas ############################################
 
-typedef struct nodo{
+typedef struct nodo{ // Cola de personajes para controlar turnos
     Personaje per;
     struct nodo *sig;
 } Nodo;
@@ -185,7 +191,7 @@ ListaHab newListaH(){
 }
 
 
-void insertar_hab(ListaHab *L, Habilidad habilidad){ // revisa si funciona Mariana
+void insertar_hab(ListaHab *L, Habilidad habilidad){ 
 
 	 NODO_LHAB *q = malloc(sizeof(NODO_LHAB));
 	 q->habilidad = habilidad;
@@ -259,7 +265,11 @@ void mostrar_ite(ListaIte *L){
     }
 }
 
-void insertarItem(Personaje p, Item ite){ // Funcion auxiliar para insertar item en el terreno
+void insertarItemT(Personaje p, Item ite, int i, int j){ // Funcion auxiliar para insertar item en el terreno deseado
+    insertar_ite((&(Terreno[i][j])->items),ite);
+}
+
+void insertarItem(Personaje p, Item ite){ // Funcion auxiliar para insertar item en el terreno actual
     BuscarEnT(p);
     insertar_ite((&(Terreno[posi][posj])->items),ite);
 }
@@ -308,7 +318,7 @@ void moverItem(Personaje p){
 
 ////########################## Manejo de pilas ############################################
 
-typedef struct nodo_pinv
+typedef struct nodo_pinv // Inventario del personaje
 {
 	Item items;
 	struct nodo_pinv *sig;
@@ -445,9 +455,15 @@ Personaje NewDuende (int jug, int turno){
 //-----------------------------------------------------------------------------------------
 
 
-//############################ Operaciones sobre TAD
+//############################ Operaciones sobre TAD #####################################
 
-void ShowCPersonaje(Personaje p){
+void SumarAccion(Personaje p){ // Al inicio de cada turno se suman 5 puntos de accion
+    p->ptAccion= p->ptAccion+5;
+
+
+}
+
+void ShowCPersonaje(Personaje p){ // Imprime personaje 
     printf("\nNombre: %s"
            "\nPuntos de Salud: %d"
            "\nPuntos de Energia: %d"
@@ -518,31 +534,24 @@ queue(p4, personajes);
 }
 
 
-
-void busquedaItem(PilaInv p, ListaIte a, Item ite){ // Recibe el Item a buscar, la pila de inventario y la lista del terreno.
-	while(p!=NULL && ite != p->items){
-		Item b=pop(&p);
-		insertar_ite(&a,b);
-	}
-}
-
 void busquedaItems(Personaje p){
     int y,i,j;
     do{
-        printf("\nEl item es:");
+        printf("\nEl item disponible es:");
         Item ite=top(p->inventario);
         puts(ite->nombre);
+        printf("Elija la accion a tomar:");
         printf("\n1)Siguiente item \n2)Usar \n 3)Salir");
         scanf("%d",&y);
         switch(y){
             case 1:{
-                insertarItem(p,ite);
-                pop(&(p->inventario));
+                insertarItem(p,ite); // Inserto Item al terreno
+                pop(&(p->inventario)); // Elimino item del inventario del personaje
                 break;
             case 2:
-                printf("\nIngrese coordenadas del tablero:" );
+                printf("\nIngrese coordenadas del tablero para usar item:" );
                 scanf("%d %d",&i,&j);
-                insertarItem(p,ite);
+                insertarItemT(p,ite,i,j);
                 pop(&(p->inventario));
                 break;
             case 3:
@@ -1022,83 +1031,12 @@ void MoverenTablero(Personaje p){
         Tablero[newi][newj]->personaje= p;
         Tablero[posi][posj]->personaje=NULL;
     }
-
-
-
 }
 
-/*void EscribeDestino(int *di,int *dj){
-    printf("\nDestino\n");
-
-    do{
-        printf("\nEscoge el destino:\nFila: ");   // elige fila
-        scanf("%d",di);
-    }while(*di<0 || *di>7);
-
-    do{
-        printf("\nColumna: ");   // elige Columna
-        scanf("%d",dj);
-    }while(*dj<0 || *dj>7);
-}
-
-
-int ConfirmaDestino(int *oi,int *oj,int *di, int *dj) {
-     if(oj+1==dj || oj-1==dj){
-        if(oi+1==di || oi-1==di)return 1;
-     }else return 0;
-}
-
-*/
-
-
-//Inserta los turnos de mayor a menor
-// Turnos *T DEBE ser variable global??????????????
-
-
-/*
-void insertOrdturnos (int ppi, int ppj, int vv, Turnos T){
-    Turno *p =malloc(sizeof(Turno)), *q;
-    p->velocity=vv;
-    p->pi=ppi;
-    p->pj=ppj;
-    if(T==NULL || vv>(T)->velocity){
-        p->tnext=T;
-        T=p;
-    }else{
-        q=T;
-        while(q->tnext!=NULL && vv<(q->tnext)->velocity) q=q->tnext;
-        p->tnext=q->tnext; q->tnext=p;
-
-
-    }
-
-}
-*/
-
-//Busca en el tablero los personajes para asignarles un turno
-/*
-void BuscarTurnos (Turnos *T){
-    *T=NULL;
-
-    for(int i=0; i<10; i++){
-        for(int j=0; j<20; j++){
-            if(Tablero[i][j]->personaje!=NULL){
-                insertOrdturnos(i, j,(Tablero[i][j]->personaje)->velocity);
-
-
-            }
-        }
-    }
-
-
-
-
-}
-*/
 void usarHabilidad(Personaje per){
     int h; // alamacena el numero de la habiliad escogida por el usuario
     printf("Ingrese el numero de la habilidad deseada:\n1.Incendiar\n2.Congelar\n3.Electrocutar\n4.Restaurar");
-    scanf("%d",h);
+    scanf("%d",&h);
     switch(h){
         case 1:
             Evalhabilidad(per,incendiar);
@@ -1116,21 +1054,26 @@ void usarHabilidad(Personaje per){
     }
 }
 
-
-/*void usarItem(Personaje per){
-    int i,j;
-    printf("Ingrese las coordenadas del terreno a consultar:");
-    scanf("%d,%d",&i,&j);
-
+void usarItem(Personaje per){
+    int i;
+    printf("Ingrese el numero del item deseado:\n1.PosionSalud\n2.PosionEnergia\n3.GranadaNulificadora\n");
+    scanf("%d",&i);
+    switch(i){
+        case 1:
+            Evalitem(per,pSalud);
+            break;
+        case 2:
+            Evalitem(per,pEnergia);
+            break;
+        case 3:
+            Evalitem(per,gnul);
+            break;
+    }
 }
-*/
+
 
 //############################ Fin operaciones  del TAD ###################################
-void SumarAccion(Personaje p){
-    p->ptAccion= p->ptAccion+5;
 
-
-}
 //-----------------------------------------------------------------------------------------
 
 #endif

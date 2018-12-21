@@ -2,13 +2,14 @@
 #include "GAMERPG.h"
 
 int main(){
+
     newTerreno();
     Habilidad incendiar = create_incendiar();
     Habilidad congelar = create_congelar();
     Habilidad electrocutar = create_Electrocutar();
     Habilidad restaurar = create_Restaurar();
     int a, b,c,d;
-    // FALTA INICIALIZAR TABLERO Y LISTA DE ITEMS EN NULL
+
     printf("Bienvenidos al Juego de Roles\n"
           "Eliga su opcion\n"
           "1. Nueva Partida\n"
@@ -29,7 +30,7 @@ int main(){
         selectPersonaje(personajes);
         while (1){
           // Al inicio del turno s ele deben asignar 5 ptAccion a cada personaje
-            first(personajes)->ptAccion = (first(personajes)->ptAccion) + 5;
+            SumarAccion(first(personajes));
             printf("Escoge una opcion: \n"
                    "1)Mostrar tablero\n"
                    "2)Consultar casilla\n"
@@ -82,13 +83,13 @@ int main(){
                             case 1: /*lista en orden todos los items del piso y los enumera en un menú,
                             el jugador procede entonces a especificar uno de ellos.
                             El item sera removido del piso y agregado al tope del inventario. */
-                                moverItem(first(personajes));
-                                break;
+                               moverItem(first(personajes));
+                               break;
                             case 2: 
-                              Item w = top(&((first(personajes))->inventario))/*remueve el tope del inventario y lo agrega a los items que se encuentran
+                               Item w = top(&((first(personajes))->inventario))/*remueve el tope del inventario y lo agrega a los items que se encuentran
                                 en la casilla donde está parado el personaje.*/
-                              insertarItem(first(personajes),w); // debe ser la lista de items del terreno en el que esta parado el personaje.
-                                break;
+                               insertarItem(first(personajes),w); // debe ser la lista de items del terreno en el que esta parado el personaje.
+                               break;
                             case 3: 
                                 /*revisa el item que se encuentra al tope del inventario, si el item es un
                                 ARMA o ARMADURA, lo equipa en el campo correspondiente
